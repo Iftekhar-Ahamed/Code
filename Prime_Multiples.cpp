@@ -48,7 +48,7 @@ const ll modulo=1e9+7;
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 #define nn "\n"
-
+/*Iftekhar Ahamed Siddiquee*/
 
 void solve(){
     ll n,k;
