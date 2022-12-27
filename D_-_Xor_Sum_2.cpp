@@ -6,67 +6,104 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <queue>
-#include <deque>
-#include <bitset>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <limits>
-#include <time.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int uint64;
 #define ll long long
 #define INF (ll)1e16
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
-#define test          \
-    long long int ct; \
-    cin >> ct;        \
+#define test   \
+    ll ct;     \
+    cin >> ct; \
     while (ct--)
-const double pi = acos(-1.0);
-const ll modulo = 1e9 + 7;
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
-#define nn "\n"
+const double pi = acos(-1.0);
+const ll mod = 1e9 + 7;
+const ll mXs = 1e6;
 
+void inc(ll num, vector<ll> &list)
+{
+    for (ll i = 0; i <= 30; i++)
+    {
+        if (num & (1 << i))
+        {
+            list[i]++;
+        }
+        // cerr << list[i] << " " << i << nn;
+    }
+    // cerr << nn;
+}
+void dec(ll num, vector<ll> &list)
+{
+    for (ll i = 0; i <= 30; i++)
+    {
+        if (num & (1 << i))
+        {
+            list[i]--;
+        }
+    }
+}
+bool ok(vector<ll> &v)
+{
+    for (auto i : v)
+        if (i >= 2)
+            return false;
+    return true;
+}
 void solve()
 {
-    cout << "HI" << nn;
+    ll n;
+
+    cin >> n;
+
+    vector<ll> v(n), c(40, 0);
+    ll sum = 0, Xor = 0;
+    for (auto &i : v)
+    {
+        cin >> i;
+        Xor ^= i;
+        sum += i;
+    }
+    if (sum == Xor)
+    {
+        cout << (n * (n + 1)) / 2 << nn;
+        return;
+    }
+
+    ll ans = 0;
+    ll r = 0, l = 0;
+
+    while (r < n)
+    {
+
+        inc(v[r], c);
+        while (!ok(c))
+        {
+            dec(v[l], c);
+            l++;
+        }
+        ans += (r + 1) - l;
+        r++;
+    }
+
+    cout << ans << nn;
 }
 
 int main()
 {
-    cin.tie(NULL);
-    // read;
-    // write;
-    ios_base::sync_with_stdio(false);
-    test
-    {
-        solve();
-    }
+    // FIO;
+    //  read;
+    //  write;
+
+    solve();
+
     return 0;
 }
 /*

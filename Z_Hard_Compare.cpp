@@ -6,67 +6,75 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <queue>
-#include <deque>
-#include <bitset>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <limits>
-#include <time.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int uint64;
 #define ll long long
 #define INF (ll)1e16
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
-#define test          \
-    long long int ct; \
-    cin >> ct;        \
+#define test   \
+    ll ct;     \
+    cin >> ct; \
     while (ct--)
-const double pi = acos(-1.0);
-const ll modulo = 1e9 + 7;
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
-#define nn "\n"
+const double pi = acos(-1.0);
+const ll mod = 1e9 + 7;
+const ll mXs = 1e6;
+ll big_mod(ll base, ll power)
+{
+    if (power == 0)
+        return 1;
+    else if (power % 2 == 1)
+    {
+        ll p1 = base % mod;
+        ll p2 = (big_mod(base, power - 1)) % mod;
+        return (p1 * p2) % mod;
+    }
 
+    ll p1 = (big_mod(base, power / 2)) % mod;
+    return (p1 * p1) % mod;
+}
 void solve()
 {
-    cout << "HI" << nn;
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (b == d)
+    {
+        if (a > c)
+        {
+            cout << "YES" << nn;
+        }
+        else
+        {
+            cout << "NO" << nn;
+        }
+        return;
+    }
+    if (big_mod(a, b) > big_mod(c, d))
+    {
+        cout << "YES" << nn;
+    }
+    else
+    {
+        cout << "NO" << nn;
+    }
 }
 
 int main()
 {
-    cin.tie(NULL);
+    FIO;
     // read;
     // write;
-    ios_base::sync_with_stdio(false);
-    test
-    {
-        solve();
-    }
+
+    solve();
+
     return 0;
 }
 /*

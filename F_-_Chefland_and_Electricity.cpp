@@ -6,63 +6,88 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <queue>
-#include <deque>
-#include <bitset>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <limits>
-#include <time.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int uint64;
 #define ll long long
 #define INF (ll)1e16
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
-#define test          \
-    long long int ct; \
-    cin >> ct;        \
+#define test   \
+    ll ct;     \
+    cin >> ct; \
     while (ct--)
-const double pi = acos(-1.0);
-const ll modulo = 1e9 + 7;
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
-#define nn "\n"
-
+const double pi = acos(-1.0);
+const ll mod = 1e9 + 7;
+const ll mXs = 1e6;
+ll find(ll node, vector<ll> &p)
+{
+    if (p[node] == -1)
+        return node;
+    p[node] = find(p[node], p);
+    return p[node];
+}
+bool merge(ll x, ll y, vector<ll> &p, vector<bool> &light, string &s)
+{
+    x = find(x, p);
+    y = find(y, p);
+    if (x == y || (s[x] == '1' && s[y] == '1'))
+        return false;
+    if (s[x] == '1')
+    {
+        p[y] = x;
+    }
+    else
+    {
+        p[x] = y;
+    }
+    return true;
+}
 void solve()
 {
-    cout << "HI" << nn;
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    ll x, y;
+    cin >> x;
+    priority_queue<tuple<ll, ll, ll>, vector<tuple<ll, ll, ll>>, greater<tuple<ll, ll, ll>>> pq;
+    for (ll i = 1; i < n; i++)
+    {
+        cin >> y;
+        pq.push({y - x, i - 1, i});
+        x = y;
+    }
+    ll ans = 0;
+
+    vector<ll> p(n, -1);
+    vector<bool> light(n, false);
+
+    while (!pq.empty())
+    {
+        auto [cost, u, v] = pq.top();
+        pq.pop();
+
+        if (merge(u, v, p, light, s))
+        {
+            ans += cost;
+        }
+    }
+    cout << ans << nn;
 }
 
 int main()
 {
-    cin.tie(NULL);
+    FIO;
     // read;
     // write;
-    ios_base::sync_with_stdio(false);
     test
     {
         solve();

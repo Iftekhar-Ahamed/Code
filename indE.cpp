@@ -6,67 +6,89 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <queue>
-#include <deque>
-#include <bitset>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <limits>
-#include <time.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int uint64;
 #define ll long long
 #define INF (ll)1e16
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
-#define test          \
-    long long int ct; \
-    cin >> ct;        \
+#define test   \
+    ll ct;     \
+    cin >> ct; \
     while (ct--)
-const double pi = acos(-1.0);
-const ll modulo = 1e9 + 7;
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
-#define nn "\n"
+const double pi = acos(-1.0);
+const ll mod = 1e9 + 7;
+const ll mXs = 1e6;
 
 void solve()
 {
-    cout << "HI" << nn;
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    if (s.size() >= 1)
+    {
+        ll point = 0;
+        if (s[0] == 'R')
+        {
+            point = 2;
+        }
+        else
+        {
+            point = 1;
+        }
+        ll start = 2;
+        for (ll i = 1; i < s.size(); i++)
+        {
+            point *= 2;
+            if (s[i] == 'R')
+            {
+                point += 2;
+            }
+            else
+            {
+                point += 1;
+            }
+            start *= 2;
+            start += 2;
+        }
+        ll used = 0, x = n;
+        while (x > s.size())
+        {
+            used += pow(2, x);
+            x--;
+        }
+        ll ans = used + (start - point);
+        cout << ans + 1 << nn;
+    }
+    else
+    {
+        ll used = 0;
+        while (n > 0)
+        {
+            used += pow(2, n);
+            n--;
+        }
+        cout << used + 1 << nn;
+    }
 }
 
 int main()
 {
-    cin.tie(NULL);
+    FIO;
     // read;
     // write;
-    ios_base::sync_with_stdio(false);
-    test
-    {
-        solve();
-    }
+
+    solve();
+
     return 0;
 }
 /*

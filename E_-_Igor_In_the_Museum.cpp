@@ -6,67 +6,95 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <queue>
-#include <deque>
-#include <bitset>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <limits>
-#include <time.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int uint64;
 #define ll long long
 #define INF (ll)1e16
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
-#define test          \
-    long long int ct; \
-    cin >> ct;        \
+#define test   \
+    ll ct;     \
+    cin >> ct; \
     while (ct--)
-const double pi = acos(-1.0);
-const ll modulo = 1e9 + 7;
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
-#define nn "\n"
+const double pi = acos(-1.0);
+const ll mod = 1e9 + 7;
+const ll mXs = 1e6;
+ll n, m, k;
+ll bfs(ll i, ll j, vector<vector<ll>> &v, ll key)
+{
+    queue<pair<ll, ll>> q;
+    q.push({i, j});
+    v[i][j] = key;
+    ll c = 0;
+    while (!q.empty())
+    {
+        auto [x, y] = q.front();
+        q.pop();
 
+        for (ll i = 0; i < 4; i++)
+        {
+            ll tx = dRow[i] + x, ty = dCol[i] + y;
+            if (tx >= 0 && tx < n && ty >= 0 && ty < m)
+            {
+                if (v[tx][ty] == -1)
+                {
+                    q.push({tx, ty});
+                    v[tx][ty] = key;
+                }
+                else if (v[tx][ty] == -2)
+                {
+                    ++c;
+                }
+            }
+        }
+    }
+    return c;
+}
 void solve()
 {
-    cout << "HI" << nn;
+    cin >> n >> m >> k;
+    vector<vector<ll>> v(n, vector<ll>(m, -1));
+    for (auto &i : v)
+    {
+        for (auto &j : i)
+        {
+            char ch;
+            cin >> ch;
+            if (ch == '*')
+                j = -2;
+        }
+    }
+    vector<ll> ans;
+    ll key = 0;
+    while (k--)
+    {
+        ll i, j;
+        cin >> i >> j;
+        i--, j--;
+        if (v[i][j] == -1)
+        {
+            ans.push_back(bfs(i, j, v, key++));
+        }
+        cout << ans[v[i][j]] << nn;
+    }
 }
 
 int main()
 {
-    cin.tie(NULL);
+    FIO;
     // read;
     // write;
-    ios_base::sync_with_stdio(false);
-    test
-    {
-        solve();
-    }
+
+    solve();
+
     return 0;
 }
 /*

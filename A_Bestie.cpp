@@ -6,63 +6,76 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-#include <queue>
-#include <deque>
-#include <bitset>
-#include <iterator>
-#include <list>
-#include <stack>
-#include <map>
-#include <set>
-#include <functional>
-#include <numeric>
-#include <utility>
-#include <limits>
-#include <time.h>
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-typedef long int int32;
-typedef unsigned long int uint32;
-typedef long long int int64;
-typedef unsigned long long int uint64;
 #define ll long long
 #define INF (ll)1e16
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
-#define test          \
-    long long int ct; \
-    cin >> ct;        \
+#define test   \
+    ll ct;     \
+    cin >> ct; \
     while (ct--)
-const double pi = acos(-1.0);
-const ll modulo = 1e9 + 7;
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
-#define nn "\n"
-
+const double pi = acos(-1.0);
+const ll mod = 1e9 + 7;
+const ll mXs = 1e6;
+bool isPrime(ll n)
+{
+    for (ll i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
 void solve()
 {
-    cout << "HI" << nn;
+    ll n;
+    cin >> n;
+    ll gcd;
+    cin >> gcd;
+    ll v[n];
+    v[0] == gcd;
+    for (ll i = 1; i < n; i++)
+    {
+        ll x;
+        cin >> x;
+        v[i] = x;
+        gcd = __gcd(gcd, x);
+    }
+    if (gcd == 1)
+    {
+        cout << 0 << nn;
+        return;
+    }
+    else if (__gcd(gcd, n) == 1)
+    {
+        cout << 1 << nn;
+    }
+    else if (__gcd(gcd, n - 1) == 1)
+    {
+        cout << 2 << nn;
+    }
+    else
+    {
+        cout << 3 << nn;
+    }
 }
 
 int main()
 {
-    cin.tie(NULL);
+    FIO;
     // read;
     // write;
-    ios_base::sync_with_stdio(false);
     test
     {
         solve();

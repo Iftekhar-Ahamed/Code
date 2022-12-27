@@ -41,7 +41,7 @@ typedef unsigned long long int uint64;
 #define INF (ll)1e16
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define mXs 1e6
+#define mXs 1e5
 #define test          \
     long long int ct; \
     cin >> ct;        \
@@ -52,9 +52,60 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 #define nn "\n"
 
+ll find(ll node, vector<ll> &p)
+{
+    if (p[node] == node)
+        return node;
+    p[node] = find(p[node], p);
+    return p[node];
+}
+
 void solve()
 {
-    cout << "HI" << nn;
+    ll n, q;
+    cin >> n >> q;
+
+    vector<ll> p(100001, -1), trace(100001, -1), a(n + 1);
+
+    for (ll i = 1; i <= n; i++)
+    {
+        cin >> a[i];
+        ll x = a[i];
+        if (trace[x] == -1)
+        {
+            trace[x] = i;
+        }
+        p[i] = trace[x];
+    }
+    while (q--)
+    {
+        ll t;
+        cin >> t;
+        if (t == 1)
+        {
+            ll x, y;
+            cin >> x >> y;
+            if (trace[x] == -1 || x == y)
+                continue;
+            if (trace[y] == -1)
+            {
+                trace[y] = trace[x];
+                a[trace[x]] = y;
+                trace[x] = -1;
+            }
+            else
+            {
+                p[trace[x]] = trace[y];
+                trace[x] = -1;
+            }
+        }
+        else
+        {
+            ll x;
+            cin >> x;
+            cout << a[find(x, p)] << nn;
+        }
+    }
 }
 
 int main()
@@ -63,8 +114,10 @@ int main()
     // read;
     // write;
     ios_base::sync_with_stdio(false);
+    ll t = 1;
     test
     {
+        cout << "Case " << t++ << ":" << nn;
         solve();
     }
     return 0;
