@@ -20,36 +20,54 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-void f(vector<ll> &a, ll x)
+bool poss(ll mid, ll n, vector<ll> &v, ll k)
 {
-    if (x == 1)
+    ll c = 0;
+    for (ll i = mid; i < n; i++)
     {
-        return;
+        if (v[mid] % v[i] == 0)
+        {
+            c++;
+        }
     }
-    swap(a[x], a[x - 1]);
+    return c >= k;
 }
 void solve()
 {
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> a(n);
 
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1);
-    for (ll i = 1; i <= n; i++)
-        a[i] = i;
-
-    f(a, n);
-    f(a, n);
-    for (ll i = 1; i <= n; i++)
+    for (ll i = 0; i < n; i++)
     {
-        cout << a[i] << " ";
+        cin >> a[i];
     }
-    cout << nn;
+
+    ll l = 0, r = n;
+    ll ans = -1;
+
+    while (l <= r)
+    {
+        ll mid = (l + r) / 2;
+        if (poss(mid, n, a, k))
+        {
+            ans = mid;
+            l = mid + 1;
+        }
+        else
+        {
+            r = mid - 1;
+        }
+    }
+    cout << (ans == -1 ? -1 : ans + 1) << nn;
 }
 
 int main()
@@ -57,10 +75,10 @@ int main()
     FIO;
     // read;
     // write;
-    test
-    {
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

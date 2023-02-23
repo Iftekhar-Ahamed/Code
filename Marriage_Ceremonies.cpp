@@ -20,36 +20,43 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-void f(vector<ll> &a, ll x)
-{
-    if (x == 1)
-    {
-        return;
-    }
-    swap(a[x], a[x - 1]);
-}
+
 void solve()
 {
-
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1);
-    for (ll i = 1; i <= n; i++)
-        a[i] = i;
-
-    f(a, n);
-    f(a, n);
-    for (ll i = 1; i <= n; i++)
+    ll N;
+    cin >> N;
+    priority_queue<tuple<ll, ll, ll>> pq;
+    bool male[N], felmale[N];
+    for (ll i = 0; i < N; i++)
     {
-        cout << a[i] << " ";
+        for (ll j = 0; j < N; j++)
+        {
+            ll x;
+            cin >> x;
+            pq.push({x, i, j});
+        }
+        male[i] = felmale[i] = true;
     }
-    cout << nn;
+    ll ans = 0;
+    while (!pq.empty())
+    {
+        auto [c, i, j] = pq.top();
+        pq.pop();
+        if (male[i] && felmale[j])
+        {
+            ans += c;
+            male[i] = felmale[j] = false;
+        }
+    }
+    cout << ans << nn;
 }
 
 int main()
@@ -59,6 +66,7 @@ int main()
     // write;
     test
     {
+        testcase
         solve();
     }
     return 0;

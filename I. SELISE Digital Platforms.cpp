@@ -20,36 +20,54 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-void f(vector<ll> &a, ll x)
-{
-    if (x == 1)
-    {
-        return;
-    }
-    swap(a[x], a[x - 1]);
-}
+
 void solve()
 {
 
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1);
-    for (ll i = 1; i <= n; i++)
-        a[i] = i;
+    string s, main = " Digital Platforms", ss = "SELISE";
+    getline(cin, s);
+    // cout << s << nn;
 
-    f(a, n);
-    f(a, n);
-    for (ll i = 1; i <= n; i++)
+    map<char, ll> mp;
+    for (auto i : s)
     {
-        cout << a[i] << " ";
+        mp[i]++;
     }
-    cout << nn;
+    for (auto i : ss)
+    {
+        if (mp[i] == 0)
+        {
+            cout << "NONE" << nn;
+            return;
+        }
+        else
+        {
+            mp[i]--;
+        }
+    }
+
+    for (auto i : main)
+    {
+        if (mp[i] == 0)
+        {
+            cout << "SELISE" << nn;
+            return;
+        }
+        else
+        {
+            mp[i]--;
+        }
+    }
+
+    cout << "BOTH" << nn;
 }
 
 int main()
@@ -57,8 +75,12 @@ int main()
     FIO;
     // read;
     // write;
-    test
+    ll t;
+    cin >> t;
+    cin.ignore();
+    for (ll i = 1; i <= t; i++)
     {
+        cout << "Case " << i << ": ";
         solve();
     }
     return 0;

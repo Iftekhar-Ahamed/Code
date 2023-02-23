@@ -20,47 +20,69 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-void f(vector<ll> &a, ll x)
+void getPoint(ll n, ll &l, ll &r)
 {
-    if (x == 1)
+    if (n % 2)
     {
-        return;
+        r = (n / 2) + 1;
+        l = (n / 2) - 1;
     }
-    swap(a[x], a[x - 1]);
+    else
+    {
+        r = n / 2;
+        l = r - 1;
+    }
 }
-void solve()
+
+ll cal(ll a, ll b)
 {
-
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1);
-    for (ll i = 1; i <= n; i++)
-        a[i] = i;
-
-    f(a, n);
-    f(a, n);
-    for (ll i = 1; i <= n; i++)
+    ll need = 0;
+    if (a < b)
     {
-        cout << a[i] << " ";
+        need = 26 - (b - a);
     }
-    cout << nn;
+    else
+    {
+        need = a - b;
+    }
+    return need;
+}
+void solve(string &s)
+{
+    ll n = s.size();
+    ll op = 0, ans = 0;
+    for (ll i = n / 2; i < n; i++)
+    {
+        ll a = s[i] - 'a';
+        ll b = s[n - i - 1] - 'a';
+        a += op;
+        a %= 26;
+        ll t = cal(b, a);
+        ans += t;
+        op += t;
+    }
+    cout << ans << nn;
 }
 
 int main()
 {
     FIO;
     // read;
-    // write;
-    test
+    //  write;
+    string s;
+    while (cin >> s)
     {
-        solve();
+        solve(s);
     }
+
     return 0;
 }
 /*

@@ -20,36 +20,27 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-void f(vector<ll> &a, ll x)
-{
-    if (x == 1)
-    {
-        return;
-    }
-    swap(a[x], a[x - 1]);
-}
+
 void solve()
 {
-
     ll n;
     cin >> n;
-    vector<ll> a(n + 1);
-    for (ll i = 1; i <= n; i++)
-        a[i] = i;
-
-    f(a, n);
-    f(a, n);
-    for (ll i = 1; i <= n; i++)
+    vector<pair<ll, string>> v(n);
+    for (auto &i : v)
     {
-        cout << a[i] << " ";
+        cin >> i.second >> i.first;
     }
-    cout << nn;
+    sort(v.begin(), v.end());
+
+    cout << "Selise Coding Challenge 2023 Winners\nWinner: " << v[0].second << " => " << v[0].first << "\n1st Runner Up: " << v[1].second << " => " << v[1].first << "\n2nd Runner Up: " << v[2].second << " => " << v[2].first << nn;
 }
 
 int main()
@@ -57,10 +48,10 @@ int main()
     FIO;
     // read;
     // write;
-    test
-    {
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

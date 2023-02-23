@@ -1,1 +1,4 @@
-aybabtu
+abba
+cba
+cbab
+bc
