@@ -15,8 +15,8 @@ using namespace std;
 
 #define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("input3.txt", "r", stdin)
-#define write freopen("3_output.txt", "w", stdout)
-#define ll int
+#define write freopen("output3.txt", "w", stdout)
+#define ll long long
 #define INF (ll)1e16
 #define nn "\n"
 #define EPS 1e-9
@@ -31,51 +31,50 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 2e6;
-vector<bool> v;
-vector<ll> trace;
-void add(ll pos, vector<ll> &ara, ll blockSize)
+const ll mXs = 1e6;
+typedef tree<int, null_type, less<int>, rb_tree_tag,
+             tree_order_statistics_node_update>
+    ordered_set;
+ordered_set v;
+void add(ll pos, vector<ll> &ara)
 {
-
-    ll blockpos;
-    v[ara[pos] - 1] = true;
-    ll l = ara[pos];
-    blockpos = --l / blockSize;
-    trace[blockpos]++;
+    v.insert(ara[pos]);
 }
-void remove(ll pos, vector<ll> &ara, ll blockSize)
+void remove(ll pos, vector<ll> &ara)
 {
-
-    ll blockpos;
-    v[ara[pos] - 1] = false;
-    ll l = ara[pos];
-    blockpos = --l / blockSize;
-    trace[blockpos]--;
+    int rank = v.order_of_key(ara[pos]);
+    auto it = v.find_by_order(rank);
+    v.erase(it);
 }
-
-ll quary(ll k, ll totalBlock, ll blockSize)
+void print()
 {
-    ll i, pos = 0;
-    for (i = 0; i < totalBlock && k >= trace[i]; i++)
+    cout << "********" << nn;
+    for (ll i = 0; i < v.size(); i++)
     {
-        k -= trace[i];
-        pos += blockSize;
+        cout << *v.find_by_order(i) << nn;
     }
-    while (k > 0 && pos < mXs)
+}
+ll quary(ll k)
+{
+    ll siz = v.size();
+
+    if (k > mXs)
     {
-        if (v[pos++])
-            k--;
+        ll mx = *v.find_by_order(siz);
+        k -= siz;
+        return mx + k;
     }
-    return pos + k;
+
+    ll it = *v.find_by_order(k);
+    return it;
 }
 
 void solve()
 {
-    v.resize(mXs, true);
-    ll mtotalBlock = sqrt(mXs);
-    ll mblockSize = mXs / mtotalBlock;
-    trace.resize(mtotalBlock, mblockSize);
-
+    for (ll i = 1; i <= mXs; i++)
+    {
+        v.insert(i);
+    }
     ll n;
     cin >> n;
     vector<ll> a(n);
@@ -103,29 +102,43 @@ void solve()
     }
     sort(queris.begin(), queris.end());
 
-    ll R = -1, L = 0;
-    for (ll q = 0; q < m; q++)
+    ll R, L;
+    if (m >= 1)
+    {
+        auto [bpos, r, l, i, k] = queris[0];
+        r = abs(r);
+        L = l;
+        R = r;
+        while (l <= r)
+        {
+            remove(l, a);
+            l++;
+        }
+        queryans[i] = quary(k - 1);
+    }
+    for (ll q = 1; q < m; q++)
     {
         auto [bpos, r, l, i, k] = queris[q];
         r = abs(r);
-
         while (L > l)
         {
-            remove(--L, a, mblockSize);
+            remove(--L, a);
         }
         while (R < r)
         {
-            remove(++R, a, mblockSize);
-        }
-        while (R > r)
-        {
-            add(R--, a, mblockSize);
+            remove(++R, a);
         }
         while (L < l)
         {
-            add(L++, a, mblockSize);
+            add(L++, a);
         }
-        queryans[i] = quary(k, mtotalBlock, mblockSize);
+
+        while (R > r)
+        {
+            add(R--, a);
+        }
+
+        queryans[i] = quary(k - 1);
     }
     for (auto i : queryans)
     {
@@ -138,6 +151,7 @@ int main()
     // FIO;
     read;
     write;
+
     // testcase
     solve();
 
