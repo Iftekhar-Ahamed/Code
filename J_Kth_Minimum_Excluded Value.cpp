@@ -31,49 +31,50 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
-typedef tree<int, null_type, less<int>, rb_tree_tag,
-             tree_order_statistics_node_update>
-    ordered_set;
-ordered_set v;
-void add(ll pos, vector<ll> &ara)
+const ll mXs = 2e6;
+vector<bool> v;
+vector<ll> trace;
+void add(ll pos, vector<ll> &ara, ll blockSize)
 {
-    v.insert(ara[pos]);
-}
-void remove(ll pos, vector<ll> &ara)
-{
-    int rank = v.order_of_key(ara[pos]);
-    auto it = v.find_by_order(rank);
-    v.erase(it);
-}
-void print()
-{
-    cout << "********" << nn;
-    for (ll i = 0; i < v.size(); i++)
-    {
-        cout << *v.find_by_order(i) << nn;
-    }
-}
-ll quary(ll k)
-{
-    ll siz = v.size();
 
-    if (k > mXs)
-    {
-        k -= siz;
-        return mXs + k;
-    }
+    ll blockpos;
+    v[ara[pos] - 1] = true;
+    ll l = ara[pos];
+    blockpos = --l / blockSize;
+    trace[blockpos]++;
+}
+void remove(ll pos, vector<ll> &ara, ll blockSize)
+{
 
-    ll it = *v.find_by_order(k);
-    return it;
+    ll blockpos;
+    v[ara[pos] - 1] = false;
+    ll l = ara[pos];
+    blockpos = --l / blockSize;
+    trace[blockpos]--;
+}
+
+ll quary(ll k, ll totalBlock, ll blockSize)
+{
+    ll i, pos = 0;
+    for (i = 0; i < totalBlock && k >= trace[i]; i++)
+    {
+        k -= trace[i];
+        pos += blockSize;
+    }
+    while (k > 0 && pos < mXs)
+    {
+        if (v[pos++])
+            k--;
+    }
+    return pos + k;
 }
 
 void solve()
 {
-    for (ll i = 1; i <= mXs + 1; i++)
-    {
-        v.insert(i);
-    }
+    v.resize(mXs, true);
+    ll mtotalBlock = sqrt(mXs);
+    ll mblockSize = mXs / mtotalBlock;
+    trace.resize(mtotalBlock, mblockSize);
     ll n;
     cin >> n;
     vector<ll> a(n);
@@ -110,11 +111,10 @@ void solve()
         R = r;
         while (l <= r)
         {
-            remove(l, a);
+            remove(l, a, mblockSize);
             l++;
         }
-        // print();
-        queryans[i] = quary(k - 1);
+        queryans[i] = quary(k, mtotalBlock, mblockSize);
     }
     for (ll q = 1; q < m; q++)
     {
@@ -123,23 +123,21 @@ void solve()
 
         while (L > l)
         {
-            remove(--L, a);
+            remove(--L, a, mblockSize);
         }
         while (R < r)
         {
-            remove(++R, a);
+            remove(++R, a, mblockSize);
         }
         while (R > r)
         {
-            add(R--, a);
+            add(R--, a, mblockSize);
         }
         while (L < l)
         {
-            add(L++, a);
+            add(L++, a, mblockSize);
         }
-
-        // print();
-        queryans[i] = quary(k - 1);
+        queryans[i] = quary(k, mtotalBlock, mblockSize);
     }
     for (auto i : queryans)
     {
@@ -152,7 +150,6 @@ int main()
     FIO;
     // read;
     // write;
-
     // testcase
     solve();
 
