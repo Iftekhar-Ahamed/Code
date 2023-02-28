@@ -16,7 +16,7 @@ using namespace std;
 #define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-#define ll long long
+#define ll int
 #define INF (ll)1e16
 #define nn "\n"
 #define EPS 1e-9
@@ -31,7 +31,7 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 15;
+const ll mXs = 1e6;
 typedef tree<int, null_type, less<int>, rb_tree_tag,
              tree_order_statistics_node_update>
     ordered_set;
@@ -58,11 +58,10 @@ ll quary(ll k)
 {
     ll siz = v.size();
 
-    if (k > siz)
+    if (k > mXs)
     {
-        ll mx = *v.find_by_order(siz);
         k -= siz;
-        return mx + k;
+        return mXs + k;
     }
 
     ll it = *v.find_by_order(k);
@@ -71,7 +70,7 @@ ll quary(ll k)
 
 void solve()
 {
-    for (ll i = 1; i <= mXs; i++)
+    for (ll i = 1; i <= mXs + 1; i++)
     {
         v.insert(i);
     }
@@ -122,15 +121,6 @@ void solve()
         auto [bpos, r, l, i, k] = queris[q];
         r = abs(r);
 
-        while (L < l)
-        {
-            add(L++, a);
-        }
-
-        while (R > r)
-        {
-            add(R--, a);
-        }
         while (L > l)
         {
             remove(--L, a);
@@ -139,6 +129,15 @@ void solve()
         {
             remove(++R, a);
         }
+        while (R > r)
+        {
+            add(R--, a);
+        }
+        while (L < l)
+        {
+            add(L++, a);
+        }
+
         // print();
         queryans[i] = quary(k - 1);
     }
@@ -150,7 +149,7 @@ void solve()
 
 int main()
 {
-    // FIO;
+    FIO;
     // read;
     // write;
 
