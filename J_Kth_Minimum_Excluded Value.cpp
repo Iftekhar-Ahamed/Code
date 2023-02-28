@@ -97,6 +97,8 @@ void solve()
     {
         ll blockpos, r, l, k;
         cin >> l >> r >> k;
+        if (l > r)
+            swap(l, r);
         --r;
         blockpos = --l / blockSize;
         queris[i] = make_tuple(blockpos, (r % 2 == 0 ? r : -r), l, i, k);
@@ -135,9 +137,9 @@ void solve()
 
 int main()
 {
-    // FIO;
-    read;
-    write;
+    FIO;
+    // read;
+    // write;
     // testcase
     solve();
 
