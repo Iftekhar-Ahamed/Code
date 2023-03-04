@@ -4,23 +4,17 @@ using namespace std;
 #define nn '\n'
 int main()
 {
-    freopen("input3.txt", "w", stdout);
-    ll n = rand() % 1000000;
-    cout << n << nn;
-    for (ll i = 0; i < n; i++)
+    freopen("input4.txt", "w", stdout);
+    cout << 100 << nn;
+    for (ll j = 0; j < 100; j++)
     {
-        cout << rand() % 1000000 << " ";
-    }
-    cout << nn;
-    ll q = rand() % 1000000;
-    cout << q << nn;
-    for (ll i = 0; i < q; i++)
-    {
-        ll a = rand() % (n + 1), b = rand() % (n + 1);
-        if (a > b)
-            swap(a, b);
-        a = max(a, 1LL);
-        b = max(b, 1LL);
-        cout << a << " " << b << " " << rand() % 1000000000 << nn;
+        ll n = rand() % 100;
+        cout << n << nn;
+        for (ll i = 0; i < n; i++)
+        {
+            ll r = rand() % 25;
+            cout << (char)(97 + r);
+        }
+        cout << nn;
     }
 }
