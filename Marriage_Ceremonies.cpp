@@ -27,36 +27,43 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
+const ll mXs = 1 << 16;
+ll N;
+ll dp[16][mXs];
+ll ara[16][16];
+
+ll bitMaskDp(ll ind, ll mask)
+{
+    if (ind == N)
+    {
+        return 0;
+    }
+
+    ll &ans = dp[ind][mask];
+    if (ans != -1)
+    {
+        return ans;
+    }
+    for (ll i = 0; i < N; i++)
+    {
+        if (((1 << i) & mask) == 0)
+            ans = max(ans, ara[ind][i] + bitMaskDp(ind + 1, mask | 1 << i));
+    }
+    return ans;
+}
 
 void solve()
 {
-    ll N;
     cin >> N;
-    priority_queue<tuple<ll, ll, ll>> pq;
-    bool male[N], felmale[N];
+    memset(dp, -1, sizeof(dp));
     for (ll i = 0; i < N; i++)
     {
         for (ll j = 0; j < N; j++)
         {
-            ll x;
-            cin >> x;
-            pq.push({x, i, j});
-        }
-        male[i] = felmale[i] = true;
-    }
-    ll ans = 0;
-    while (!pq.empty())
-    {
-        auto [c, i, j] = pq.top();
-        pq.pop();
-        if (male[i] && felmale[j])
-        {
-            ans += c;
-            male[i] = felmale[j] = false;
+            cin >> ara[i][j];
         }
     }
-    cout << ans << nn;
+    cout << bitMaskDp(0, 0) << nn;
 }
 
 int main()
