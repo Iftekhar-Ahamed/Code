@@ -16,6 +16,7 @@ string left_fac(string temp, int x)
             f = i;
             break;
         }
+        // cout<<ok<<nn;
     }
     int j = 0;
     for (int i = f; i < temp.size(); i++)
