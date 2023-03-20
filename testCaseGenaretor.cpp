@@ -4,16 +4,16 @@ using namespace std;
 #define nn '\n'
 int main()
 {
-    freopen("input4.txt", "w", stdout);
+    freopen("input1.txt", "w", stdout);
     cout << 100 << nn;
     for (ll j = 0; j < 100; j++)
     {
-        ll n = rand() % 100;
+        ll n = 2000;
         cout << n << nn;
         for (ll i = 0; i < n; i++)
         {
-            ll r = rand() % 25;
-            cout << (char)(97 + r);
+            char ch = 'a' + (rand() % 25);
+            cout << ch;
         }
         cout << nn;
     }
