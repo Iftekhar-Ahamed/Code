@@ -14,7 +14,7 @@ using namespace std;
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
 #define INF (ll)1e16
-#define nn "\n" 
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
 #define test   \
@@ -23,55 +23,32 @@ using namespace std;
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
-int dRow[] = {-2, -2, 2, 2, 1, -1, -1, 1};
-int dCol[] = {1, -1, 1, -1, 2, 2, -2, -2};
+int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
+int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-ll N, K;
-void bfs(ll x, ll y)
-{
-    vector<vector<int>> trace(N, vector<int>(N, INT_MAX));
-    queue<tuple<int, int, int>> q;
-    q.push({x, y, 0});
-    while (!q.empty())
-    {
-        auto [xx, yy, cc] = q.front();
-        q.pop();
+const int N = 300005;
+int T, n, ps[2];
+char a[N];
 
-        for (ll i = 0; i < 8; i++)
-        {
-            int tx = xx + dRow[i], ty = yy + dCol[i];
-
-            if (tx >= 0 && ty >= 0 && tx < N && ty < N && cc + 1 < trace[tx][ty])
-            {
-                trace[tx][ty] = cc + 1;
-                q.push({tx, ty, cc + 1});
-            }
-        }
-    }
-}
 void solve()
 {
-    cin >> N >> K;
-
-    vector<pair<ll, ll>> point(K);
-    for (auto &i : point)
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    s="x"+s;
+    ps[0] = ps[1] = 0;
+    for (int i = 1; i < n; ++i)
     {
-        cin >> i.first;
-        cin >> i.second;
-        i.first--, i.second--;
+        ps[s[i] - 48] = i;
+        if (s[i] == '0')
+            cout<<ps[1] + 1<<" ";
+        else
+            cout<<ps[0] + 1<<" ";
     }
-
-    for (auto [x, y] : point)
-    {
-        bfs(x, y);
-    }
-    ll ans = 0;
-    for (auto [x, y] : point)
-    {
-        }
-    cout << ans << nn;
+    cout << nn;
 }
 
 int main()
@@ -81,7 +58,7 @@ int main()
     // write;
     test
     {
-        testcase
+        // testcase
         solve();
     }
     return 0;

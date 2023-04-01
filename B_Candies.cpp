@@ -14,7 +14,7 @@ using namespace std;
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
 #define INF (ll)1e16
-#define nn "\n" 
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
 #define test   \
@@ -23,65 +23,71 @@ using namespace std;
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
-int dRow[] = {-2, -2, 2, 2, 1, -1, -1, 1};
-int dCol[] = {1, -1, 1, -1, 2, 2, -2, -2};
+int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
+int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-ll N, K;
-void bfs(ll x, ll y)
+void print(vector<ll> v)
 {
-    vector<vector<int>> trace(N, vector<int>(N, INT_MAX));
-    queue<tuple<int, int, int>> q;
-    q.push({x, y, 0});
-    while (!q.empty())
+    cout << v.size() << nn;
+    for (auto b : v)
     {
-        auto [xx, yy, cc] = q.front();
-        q.pop();
-
-        for (ll i = 0; i < 8; i++)
-        {
-            int tx = xx + dRow[i], ty = yy + dCol[i];
-
-            if (tx >= 0 && ty >= 0 && tx < N && ty < N && cc + 1 < trace[tx][ty])
-            {
-                trace[tx][ty] = cc + 1;
-                q.push({tx, ty, cc + 1});
-            }
-        }
+        cout << b << " ";
     }
+    cout << nn;
 }
 void solve()
 {
-    cin >> N >> K;
-
-    vector<pair<ll, ll>> point(K);
-    for (auto &i : point)
+    ll n;
+    cin >> n;
+    if (n < 3)
     {
-        cin >> i.first;
-        cin >> i.second;
-        i.first--, i.second--;
+        cout << -1 << nn;
     }
-
-    for (auto [x, y] : point)
+    else if (n == 3)
     {
-        bfs(x, y);
+        cout << 1 << nn << 2 << nn;
     }
-    ll ans = 0;
-    for (auto [x, y] : point)
+    else if (n % 2)
     {
+        vector<ll> ans;
+        while (n > 1)
+        {
+            ll t = (n / 2);
+
+            if (t % 2 == 0)
+                t++;
+
+            if (t * 2 < n)
+            {
+                ans.push_back(2);
+            }
+            else
+            {
+                ans.push_back(1);
+            }
+
+            n = t;
         }
-    cout << ans << nn;
+        reverse(ans.begin(), ans.end());
+        print(ans);
+    }
+    else
+    {
+        cout << -1 << nn;
+    }
 }
 
 int main()
 {
-    FIO;
+    // FIO;
     // read;
     // write;
+
     test
     {
-        testcase
+        // testcase
         solve();
     }
     return 0;

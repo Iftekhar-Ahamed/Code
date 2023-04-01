@@ -10,87 +10,60 @@
 using namespace std;
 
 #define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
-#define read freopen("0_input.txt", "r", stdin)
-#define write freopen("0_output.txt", "w", stdout)
+#define read freopen("0_input.txt","r",stdin)
+#define write freopen("0_output.txt","w",stdout)
 #define ll long long
 #define INF (ll)1e16
-#define nn "\n" 
+#define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
-    for (ll i = 1; i <= ct; i++)
+#define test ll ct;cin >> ct;for(ll i=1;i<=ct;i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
-int dRow[] = {-2, -2, 2, 2, 1, -1, -1, 1};
-int dCol[] = {1, -1, 1, -1, 2, 2, -2, -2};
+int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
+int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-ll N, K;
-void bfs(ll x, ll y)
-{
-    vector<vector<int>> trace(N, vector<int>(N, INT_MAX));
-    queue<tuple<int, int, int>> q;
-    q.push({x, y, 0});
-    while (!q.empty())
-    {
-        auto [xx, yy, cc] = q.front();
-        q.pop();
 
-        for (ll i = 0; i < 8; i++)
-        {
-            int tx = xx + dRow[i], ty = yy + dCol[i];
 
-            if (tx >= 0 && ty >= 0 && tx < N && ty < N && cc + 1 < trace[tx][ty])
-            {
-                trace[tx][ty] = cc + 1;
-                q.push({tx, ty, cc + 1});
-            }
+void solve(){
+    ll n;
+    cin>>n;
+    vector<ll>v(n+1,-1);
+    for(ll i=1;i<=n;i++){
+        ll x;
+        cin>>x;
+        if(x<=n){
+            v[x]=i;
         }
     }
-}
-void solve()
-{
-    cin >> N >> K;
-
-    vector<pair<ll, ll>> point(K);
-    for (auto &i : point)
-    {
-        cin >> i.first;
-        cin >> i.second;
-        i.first--, i.second--;
-    }
-
-    for (auto [x, y] : point)
-    {
-        bfs(x, y);
-    }
-    ll ans = 0;
-    for (auto [x, y] : point)
-    {
+    for(ll i=1;i<=n;i++){
+        if(v[i]>=i){
+            cout<<"YES"<<nn;
+            return;
         }
-    cout << ans << nn;
+    }
+    cout<<"NO"<<nn;
 }
+
 
 int main()
 {
     FIO;
-    // read;
-    // write;
-    test
-    {
-        testcase
-        solve();
+    //read;
+    //write;
+    test{
+    //testcase
+    solve();
     }
     return 0;
 }
 /*
- * do something instead of nothing and stay organized
- * WRITE STUFF DOWN
- * DON'T GET STUCK ON ONE APPROACH
- */
+* do something instead of nothing and stay organized
+* WRITE STUFF DOWN
+* DON'T GET STUCK ON ONE APPROACH
+*/
 /* Final check before submit :
 1. array size or integer overflow,like uninitialised 0 index.
 2. Think twice,code once.check all possible counter test case.
