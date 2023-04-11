@@ -28,64 +28,36 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-ll queary(vector<ll> &v, ll l, ll r)
-{
-    cout << "? " << r - l + 1 << " ";
-    for (ll i = l; i <= r; i++)
-    {
-        cout << v[i] << " ";
-    }
-    cout << nn;
-    ll x;
-    cin >> x;
-    return x;
-}
+
 void solve()
 {
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1, 0), b(n + 1);
-    for (ll i = 0; i < n; i++)
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> ans;
+    for (ll i = 1; i <= n; i++)
     {
-
-        cin >> b[i];
-        if (i == 0)
-            a[i] = b[i];
-        else
-            a[i] = b[i] + a[i - 1];
-    }
-    ll l = 0, r = n - 1, sum, ind;
-    while (l <= r)
-    {
-        ll mid = l + (r - l) / 2;
-
-        if (l == 0)
+        for (ll j = 1; j <= m; j++)
         {
-            sum = a[mid];
-        }
-        else
-        {
-            sum = a[mid] - a[l - 1];
-        }
-        ll reponse = queary(b, l, mid);
-        if (reponse != sum)
-        {
-            ind = mid + 1;
-            r = mid - 1;
-        }
-        else
-        {
-            l = mid + 1;
+            ll t = abs(n - i) + abs(m - j);
+            t = max(abs(n - i) + abs(1 - j), t);
+            t = max(abs(1 - i) + abs(1 - j), t);
+            t = max(abs(1 - i) + abs(m - j), t);
+            ans.push_back(t);
         }
     }
-    cout << "! " << ind << nn;
+    sort(ans.begin(), ans.end());
+    for (auto i : ans)
+    {
+        cout << i << " ";
+    }
+    cout << nn;
 }
 
 int main()
 {
-    // FIO;
-    //  read;
-    //  write;
+    FIO;
+    // read;
+    // write;
     test
     {
         // testcase

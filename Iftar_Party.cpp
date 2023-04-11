@@ -28,67 +28,51 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-ll queary(vector<ll> &v, ll l, ll r)
-{
-    cout << "? " << r - l + 1 << " ";
-    for (ll i = l; i <= r; i++)
-    {
-        cout << v[i] << " ";
-    }
-    cout << nn;
-    ll x;
-    cin >> x;
-    return x;
-}
+
 void solve()
 {
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1, 0), b(n + 1);
-    for (ll i = 0; i < n; i++)
+    ll p, l;
+    cin >> p >> l;
+    vector<ll> ans;
+    ll t = p - l;
+    for (ll i = 1; i * i <= t; i++)
     {
+        if (t % i == 0)
+        {
 
-        cin >> b[i];
-        if (i == 0)
-            a[i] = b[i];
-        else
-            a[i] = b[i] + a[i - 1];
-    }
-    ll l = 0, r = n - 1, sum, ind;
-    while (l <= r)
-    {
-        ll mid = l + (r - l) / 2;
+            ans.push_back(i);
 
-        if (l == 0)
-        {
-            sum = a[mid];
-        }
-        else
-        {
-            sum = a[mid] - a[l - 1];
-        }
-        ll reponse = queary(b, l, mid);
-        if (reponse != sum)
-        {
-            ind = mid + 1;
-            r = mid - 1;
-        }
-        else
-        {
-            l = mid + 1;
+            ll tmp = p / i;
+            if (tmp != i)
+            {
+                ans.push_back(tmp);
+            }
         }
     }
-    cout << "! " << ind << nn;
+    sort(ans.begin(), ans.end());
+    if (ans.empty())
+    {
+        cout << "impossible" << nn;
+    }
+    else
+    {
+        for (auto i : ans)
+        {
+            if (i >= l)
+                cout << i << " ";
+        }
+        cout << nn;
+    }
 }
 
 int main()
 {
-    // FIO;
-    //  read;
-    //  write;
+    FIO;
+    // read;
+    // write;
     test
     {
-        // testcase
+        testcase
         solve();
     }
     return 0;
