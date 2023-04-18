@@ -9,10 +9,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-#define ll int
+#define ll long long
 #define INF (ll)1e16
 #define nn "\n"
 #define EPS 1e-9
@@ -27,43 +26,103 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 2e5;
-vector<vector<ll>> pre(mXs + 2, vector<ll>(32, 0));
-void precal()
-{
-    for (ll i = 1; i <= mXs; i++)
-    {
-        for (ll j = 0; j < 32; j++)
-        {
-            ll c = (i & 1LL << j);
-            pre[i][j] = pre[i - 1][j] + (c == 0 ? 0 : 1);
-        }
-    }
-}
+const ll mXs = 1e6;
+
 void solve()
 {
-    ll l, r, ans = 0;
-    cin >> l >> r;
-    for (ll i = 0; i < 32; i++)
+    ll n;
+    cin >> n;
+    vector<ll> v;
+    set<ll> s;
+    ll sum = 0;
+    for (ll i = 0; i < n; i++)
     {
-        ll c = pre[r][i] - pre[l - 1][i];
-        ans = max(c, ans);
+        ll x;
+        cin >> x;
+        sum += x;
+        s.insert(x);
     }
+    for (auto i : s)
+        v.push_back(i);
+    ll m;
+    cin >> m;
+    sort(v.begin(), v.end());
+    n = v.size();
+    for (ll i = 0; i < m; i++)
+    {
+        ll attack, defene;
+        cin >> attack >> defene;
+        ll ind = lower_bound(v.begin(), v.end(), attack) - v.begin();
+        // cout << ind << nn;
+        if (ind == n)
+        {
+            ind -= 2;
+        }
+        else
+        {
+            ind--;
+        }
 
-    cout << (r - l + 1) - ans << nn;
+        if (ind < 0 || n == 1)
+        {
+            ll ans = 0;
+            ind = 0;
+
+            ll t = sum - v[ind];
+
+            if (t < defene)
+            {
+                ans = defene - t;
+            }
+            if (attack > v[ind])
+            {
+                ans += (attack - v[ind]);
+            }
+            cout << ans << nn;
+        }
+        else
+        {
+
+            ll ans = 0, ans1 = 0;
+
+            ll t = sum - v[ind];
+
+            if (t < defene)
+            {
+                ans = defene - t;
+            }
+            if (attack > v[ind])
+            {
+                ans += (attack - v[ind]);
+            }
+
+            ind++;
+            t = sum - v[ind];
+
+            if (t < defene)
+            {
+                ans1 = defene - t;
+            }
+            if (attack > v[ind])
+            {
+                ans1 += (attack - v[ind]);
+            }
+            cout << min(ans, ans1) << nn;
+        }
+    }
 }
 
 int main()
 {
-    precal();
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

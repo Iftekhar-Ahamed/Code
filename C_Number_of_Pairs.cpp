@@ -9,10 +9,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-#define ll int
+#define ll long long
 #define INF (ll)1e16
 #define nn "\n"
 #define EPS 1e-9
@@ -27,36 +26,37 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 2e5;
-vector<vector<ll>> pre(mXs + 2, vector<ll>(32, 0));
-void precal()
-{
-    for (ll i = 1; i <= mXs; i++)
-    {
-        for (ll j = 0; j < 32; j++)
-        {
-            ll c = (i & 1LL << j);
-            pre[i][j] = pre[i - 1][j] + (c == 0 ? 0 : 1);
-        }
-    }
-}
+const ll mXs = 1e6;
+
 void solve()
 {
-    ll l, r, ans = 0;
-    cin >> l >> r;
-    for (ll i = 0; i < 32; i++)
+    ll n, l, r;
+    cin >> n >> l >> r;
+    vector<ll> v(n);
+    for (auto &i : v)
+        cin >> i;
+    sort(v.begin(), v.end());
+    ll ans = 0;
+    for (ll i = 0; i < n && v[i] <= r; i++)
     {
-        ll c = pre[r][i] - pre[l - 1][i];
-        ans = max(c, ans);
-    }
+        ll indr = upper_bound(v.begin(), v.end(), r - v[i]) - v.begin();
+        ll indl = lower_bound(v.begin(), v.end(), l - v[i]) - v.begin();
 
-    cout << (r - l + 1) - ans << nn;
+        indr--;
+
+        indl = max(i + 1, indl);
+        if (indl <= indr)
+            ans += (indr - indl) + 1;
+        // cout << indr << " " << indl << nn;
+    }
+    cout << ans << nn;
 }
 
 int main()
 {
-    precal();
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
     test

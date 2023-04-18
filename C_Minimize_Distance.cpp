@@ -12,7 +12,7 @@ using namespace std;
 #define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
-#define ll int
+#define ll long long
 #define INF (ll)1e16
 #define nn "\n"
 #define EPS 1e-9
@@ -27,35 +27,78 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 2e5;
-vector<vector<ll>> pre(mXs + 2, vector<ll>(32, 0));
-void precal()
+const ll mXs = 1e6;
+ll cal(vector<ll> &mp, ll k)
 {
-    for (ll i = 1; i <= mXs; i++)
+
+    reverse(mp.begin(), mp.end());
+    ll ans = 0, bag = k, pev = 0;
+    bool f = 1;
+    while (!mp.empty())
     {
-        for (ll j = 0; j < 32; j++)
+        ll pev = mp.back();
+        for (ll i = 0; i < k && !mp.empty(); i++)
         {
-            ll c = (i & 1LL << j);
-            pre[i][j] = pre[i - 1][j] + (c == 0 ? 0 : 1);
+            mp.pop_back();
+        }
+        ans += (pev * 2);
+        if (f)
+        {
+            ans -= pev;
+            f = 0;
         }
     }
+
+    return ans;
+}
+ll cal1(vector<ll> &mp, ll k)
+{
+    reverse(mp.begin(), mp.end());
+    ll ans = 0, bag = k, pev = 0;
+    while (!mp.empty())
+    {
+        ll pev = mp.back();
+        for (ll i = 0; i < k && !mp.empty(); i++)
+        {
+            mp.pop_back();
+        }
+        ans += (pev * 2);
+    }
+
+    return ans;
 }
 void solve()
 {
-    ll l, r, ans = 0;
-    cin >> l >> r;
-    for (ll i = 0; i < 32; i++)
+    ll n, k, x = 0, y = 0;
+    cin >> n >> k;
+    ll a[n];
+    vector<ll> mp, mp1;
+    for (ll i = 0; i < n; i++)
     {
-        ll c = pre[r][i] - pre[l - 1][i];
-        ans = max(c, ans);
+        cin >> a[i];
+        if (a[i] >= 0)
+        {
+            mp.push_back(a[i]);
+        }
+
+        else
+        {
+            mp1.push_back(a[i] * -1);
+        }
+    }
+    sort(mp.rbegin(), mp.rend());
+    sort(mp1.rbegin(), mp1.rend());
+    if (mp1.size() == 0 || (!mp.empty() && mp[0] > mp1[0]))
+    {
+        swap(mp, mp1);
     }
 
-    cout << (r - l + 1) - ans << nn;
+    ll ans = cal1(mp, k) + cal(mp1, k);
+    cout << ans << nn;
 }
 
 int main()
 {
-    precal();
     FIO;
     // read;
     // write;
