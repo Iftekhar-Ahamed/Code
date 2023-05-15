@@ -27,15 +27,31 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-
+ll a[100];
+ll ans = INF;
+ll sum = 0;
+void call(ll i, ll n, ll x, ll c)
+{
+    if (i == n)
+    {
+        if (c == 0 || c == n)
+            return;
+        ans = min(ans, sum - x);
+        return;
+    }
+    call(i + 1, n, x + a[i], c + 1);
+    call(i + 1, n, x, c);
+}
 void solve()
 {
     ll n;
     cin >> n;
-    ll a[n];
+
     for (ll i = 0; i < n; i++)
-        cin >> a[i];
-    sort(a, a + n);
+        cin >> a[i], sum += a[i];
+
+    call(0, n, 0, 0);
+    cout << ans << nn;
 }
 
 int main()
