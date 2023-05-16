@@ -51,14 +51,17 @@ const ll Mod = 1e9 + 7;
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 #define nn "\n"
-struct singleHashing
+
+struct doubleHashing
 {
-    ll base, mod, inv;
-    vector<ll> powerType, invType;
-    singleHashing()
+    ll base1, base2, mod1, mod2, inv1, inv2;
+    vector<ll> powerType1, powerType2, invType1, invType2;
+    doubleHashing()
     {
-        base = 1949313259;
-        mod = 2091573227;
+        base1 = 1949313259;
+        base2 = 1997293877;
+        mod1 = 2091573227;
+        mod2 = 2117566807;
         precal();
     }
     ll bigMod(ll base, ll power, ll Mod)
@@ -80,104 +83,97 @@ struct singleHashing
     }
     void precal()
     {
-        inv = bigMod(base, mod - 2, mod);
-        powerType.resize(1000002), invType.resize(1000002);
-        powerType[0] = invType[0] = 1;
+        inv1 = bigMod(base1, mod1 - 2, mod1), inv2 = bigMod(base2, mod2 - 2, mod2);
+        powerType1.resize(1000002), powerType2.resize(1000002), invType1.resize(1000002), invType2.resize(1000002);
+        powerType1[0] = powerType2[0] = invType1[0] = invType2[0] = 1;
 
         for (ll i = 1; i <= 1000000; i++)
         {
-            powerType[i] = (powerType[i - 1] * base) % mod;
-            invType[i] = (invType[i - 1] * inv) % mod;
+            powerType1[i] = (powerType1[i - 1] * base1) % mod1;
+            powerType2[i] = (powerType2[i - 1] * base2) % mod2;
+            invType1[i] = (invType1[i - 1] * inv1) % mod1;
+            invType2[i] = (invType2[i - 1] * inv2) % mod2;
         }
     }
-    void calculateHashValue(string &s, vector<ll> &hash)
+    void calculateHashValue(string &s, vector<vector<ll>> &hash)
     {
         ll n = s.size();
-        hash[0] = 0;
+        hash[0][0] = hash[1][0] = 0;
         for (ll i = 1; i <= n; i++)
         {
-            hash[i] = (hash[i - 1] + ((s[i - 1] * powerType[i - 1]) % mod)) % mod;
+            hash[i][0] = (hash[i - 1][0] + ((s[i - 1] * powerType1[i - 1]) % mod1)) % mod1;
+            hash[i][1] = (hash[i - 1][1] + ((s[i - 1] * powerType2[i - 1]) % mod2)) % mod2;
         }
     }
 
-    ll occarenceOfpatren(vector<ll> &hashMain, vector<ll> &hashPatern)
+    ll occarenceOfpatren(vector<vector<ll>> &hashMain, vector<vector<ll>> &hashPatern)
     {
         ll ps = hashPatern.size() - 1, n = hashMain.size() - 1;
-        ll hashOfPatern = hashPatern[ps];
+        ll hashOfPatern1 = hashPatern[ps][0], hashOfPatern2 = hashPatern[ps][1];
         ll count = 0;
         for (ll i = 0; i + ps <= n; i++)
         {
-            ll th = hashMain[i + ps] - hashMain[i];
-            th = (th * invType[i]) % mod;
-            if (th < 0)
-                th += mod;
-            if (th == hashOfPatern)
+            ll th1 = hashMain[i + ps][0] - hashMain[i][0], th2 = hashMain[i + ps][1] - hashMain[i][1];
+            th1 = (th1 * invType1[i]) % mod1, th2 = (th2 * invType2[i]) % mod2;
+            if (th1 < 0)
+                th1 += mod1;
+            if (th2 < 0)
+                th2 += mod2;
+            if (th1 == hashOfPatern1 && th2 == hashOfPatern2)
             {
                 count++;
             }
         }
         return count;
     }
-    void allPossiblePaternOf_N_Size(vector<ll> &hashMain, ll ps, set<ll> &s)
+    void allPossiblePaternOf_N_Size(vector<vector<ll>> &hashMain, ll ps, set<ll> &s)
     {
         ll n = hashMain.size() - 1;
         ll count = 0;
         for (ll i = 0; i + ps <= n; i++)
         {
-            ll th = hashMain[i + ps] - hashMain[i];
-            th = (th * invType[i]) % mod;
-            if (th < 0)
-                th += mod;
-            s.insert(th);
+            ll th1 = hashMain[i + ps][0] - hashMain[i][0], th2 = hashMain[i + ps][1] - hashMain[i][1];
+            th1 = (th1 * invType1[i]) % mod1;
+            if (th1 < 0)
+                th1 += mod1;
+            th2 = (th2 * invType2[i]) % mod2;
+            if (th2 < 0)
+                th2 += mod2;
+            s.insert(th1);
+            s.insert(th2);
         }
     }
-    bool matchAllPossiblePaternOf_N_Size(vector<ll> &hashMain, ll ps, set<ll> &s)
+    pair<ll, ll> matchAllPossiblePaternOf_N_Size(vector<vector<ll>> &hashMain, ll ps, set<ll> &s)
     {
         ll n = hashMain.size() - 1;
         ll count = 0;
         for (ll i = 0; i + ps <= n; i++)
         {
-            ll th = hashMain[i + ps] - hashMain[i];
-            th = (th * invType[i]) % mod;
-            if (th < 0)
-                th += mod;
-            if (s.count(th))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    pair<ll, ll> findpatern(vector<ll> &hashMain, ll ps, set<ll> &s)
-    {
-        ll n = hashMain.size() - 1;
-        ll count = 0;
-        for (ll i = 0; i + ps <= n; i++)
-        {
-            ll th = hashMain[i + ps] - hashMain[i];
-            th = (th * invType[i]) % mod;
-            if (th < 0)
-                th += mod;
-            if (s.count(th))
+            ll th1 = hashMain[i + ps][0] - hashMain[i][0], th2 = hashMain[i + ps][1] - hashMain[i][1];
+            th1 = (th1 * invType1[i]) % mod1;
+            if (th1 < 0)
+                th1 += mod1;
+            th2 = (th2 * invType2[i]) % mod2;
+            if (th2 < 0)
+                th2 += mod2;
+            if (s.count(th1) && s.count(th2))
             {
                 return {i, i + ps};
             }
         }
-        return {0, 0};
+        return {-1, -1};
     }
 };
-bool possible(vector<ll> &h1, vector<ll> &h2, ll n, singleHashing &ob)
+pair<ll, ll> possible(vector<vector<ll>> &h1, vector<vector<ll>> &h2, ll n, doubleHashing &ob)
 {
     set<ll> s;
     ob.allPossiblePaternOf_N_Size(h1, n, s);
     return ob.matchAllPossiblePaternOf_N_Size(h2, n, s);
 }
-void print(vector<ll> &h1, vector<ll> &h2, ll n, singleHashing &ob, string &ss)
+void print(string &ss, ll l, ll r)
 {
-    set<ll> s;
-    ob.allPossiblePaternOf_N_Size(h1, n, s);
-    pair<ll, ll> p = ob.findpatern(h2, n, s);
-    for (ll i = p.first; i < p.second; i++)
+
+    for (ll i = l; i < r; i++)
     {
         cout << ss[i];
     }
@@ -189,17 +185,20 @@ void solve()
     cin >> s >> p;
     ll ns = s.size(), np = p.size();
 
-    singleHashing ob;
-    vector<ll> mainHash(ns + 1);
+    doubleHashing ob;
+    vector<vector<ll>> mainHash(ns + 1, vector<ll>(2));
     ob.calculateHashValue(s, mainHash);
-    vector<ll> patrenHash(np + 1);
+    vector<vector<ll>> patrenHash(np + 1, vector<ll>(2));
     ob.calculateHashValue(p, patrenHash);
-    ll l = 0, r = ns, ans = 0;
+    ll l = 0, r = np, ans = 0, L, R;
     while (l <= r)
     {
         ll mid = (l + r) / 2;
-        if (possible(mainHash, patrenHash, mid, ob))
+        auto [xx, x] = possible(mainHash, patrenHash, mid, ob);
+
+        if (xx != -1)
         {
+            L = xx, R = x;
             ans = mid;
             l = mid + 1;
         }
@@ -210,7 +209,7 @@ void solve()
     }
     if (ans)
     {
-        print(mainHash, patrenHash, ans, ob, p);
+        print(p, L, R);
     }
     cout << ans << nn;
 }
