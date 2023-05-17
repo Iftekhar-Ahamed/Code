@@ -6,6 +6,7 @@
 **     Bangladesh University of Business and Technology,
 **     Dept. of CSE.
 ***/
+// ok
 #include <bits/stdc++.h>
 using namespace std;
 
