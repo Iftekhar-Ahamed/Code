@@ -37,6 +37,19 @@ void solve()
         cout << 0 << nn;
         return;
     }
+    else if (n == 1 || m == 1)
+    {
+        ll c = 2;
+        for (ll i = 0; i < n; i++)
+        {
+            for (ll j = 0; j < m; j++)
+            {
+                cout << c++ << " ";
+            }
+            cout << nn;
+        }
+        return;
+    }
     ll a[n][m];
 
     for (ll i = 0; i < m; i++)
