@@ -36,27 +36,25 @@ void solve()
     for (ll i = 0; i < n; i++)
     {
         cin >> a[i];
-        // a[i] = rand() % 100;
     }
-    ll c = 0;
-    // n*n*n = n^3
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = i + 1; j < n; j++)
+        set<ll> s;
+        for (ll k = i + 1; k < n; k++)
         {
-            for (ll k = j + 1; k < n; k++)
+            ll aj = -1;
+            if ((a[i] + a[k]) % 2 == 0)
             {
-                if (a[j] - a[i] == a[k] - a[j])
-                {
-                    cout << "No" << nn;
-                    return;
-                }
-                c++;
+                aj = (a[i] + a[k]) / 2;
             }
+            if (s.count(aj) == 1)
+            {
+                cout << "No" << nn;
+                return;
+            }
+            s.insert(a[k]);
         }
     }
-
-    // cout << c << nn;
 
     cout << "Yes" << nn;
 }

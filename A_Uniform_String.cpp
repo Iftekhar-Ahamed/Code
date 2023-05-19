@@ -30,35 +30,38 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    ll a[n];
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> a[i];
-        // a[i] = rand() % 100;
-    }
+    ll n, k;
+    cin >> n >> k;
+
+    pair<char, ll> v[k];
+
     ll c = 0;
-    // n*n*n = n^3
-    for (ll i = 0; i < n; i++)
+    for (ll i = 0; i < k; i++)
     {
-        for (ll j = i + 1; j < n; j++)
+        v[i] = {'a' + i, 0};
+    }
+
+    while (1)
+    {
+
+        for (ll j = 0; j < k; j++)
         {
-            for (ll k = j + 1; k < n; k++)
+            c++;
+            v[j].second++;
+            if (c == n)
             {
-                if (a[j] - a[i] == a[k] - a[j])
+                for (auto [a, b] : v)
                 {
-                    cout << "No" << nn;
-                    return;
+                    for (ll yy = 0; yy < b; yy++)
+                    {
+                        cout << a;
+                    }
                 }
-                c++;
+                cout << nn;
+                return;
             }
         }
     }
-
-    // cout << c << nn;
-
-    cout << "Yes" << nn;
 }
 
 int main()

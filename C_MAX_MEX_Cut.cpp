@@ -32,33 +32,33 @@ void solve()
 {
     ll n;
     cin >> n;
-    ll a[n];
+    string a, b;
+    cin >> a >> b;
+    ll ans = 0, c = 0;
     for (ll i = 0; i < n; i++)
     {
-        cin >> a[i];
-        // a[i] = rand() % 100;
+        if (a[i] != b[i])
+            ans += 2;
     }
-    ll c = 0;
-    // n*n*n = n^3
-    for (ll i = 0; i < n; i++)
+    ll last = -1;
+    for (ll i = 1; i < n; i++)
     {
-        for (ll j = i + 1; j < n; j++)
+        if (a[i] == b[i] && a[i - 1] == b[i - 1] && a[i] != a[i - 1])
         {
-            for (ll k = j + 1; k < n; k++)
-            {
-                if (a[j] - a[i] == a[k] - a[j])
-                {
-                    cout << "No" << nn;
-                    return;
-                }
-                c++;
-            }
+            last = i;
+            c++;
+            i++;
+        }
+        else if (a[i - 1] == b[i - 1])
+        {
+            ans += (a[i - 1] == '0' ? 1 : 0);
         }
     }
-
-    // cout << c << nn;
-
-    cout << "Yes" << nn;
+    if (last != (n - 1) && a[n - 1] == b[n - 1])
+    {
+        ans += (a[n - 1] == '0' ? 1 : 0);
+    }
+    cout << ans + (c * 2) << nn;
 }
 
 int main()
