@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -20,7 +19,8 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
@@ -28,25 +28,59 @@ const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
 
+ll dfs(ll p, ll nd, vector<vector<ll>> &v, map<pair<ll, ll>, ll> &edge)
+{
+    ll ans = 0;
+    for (auto child : v[nd])
+    {
+        if (p != child)
+        {
+            if (edge[{p, nd}] > edge[{nd, child}])
+            {
+                ans = max(dfs(nd, child, v, edge) + 1, ans);
+            }
+            else
+            {
+                ans = max(dfs(nd, child, v, edge), ans);
+            }
+        }
+    }
+    return ans;
+}
+
 void solve()
 {
     ll n;
     cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    vector<vector<ll>> v(n + 1);
+    map<pair<ll, ll>, ll> edge;
+    for (ll i = 1; i < n; i++)
+    {
+        ll x, y;
+        cin >> x >> y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+        edge[{x, y}] = i;
+        edge[{y, x}] = i;
+    }
+    ll ans = 0;
+    for (auto i : v[1])
+    {
+        ans = max(ans, dfs(1, i, v, edge));
+    }
+    cout << ans + 1 << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
     test
     {
-        cout << "Case " << i++ << ": ";
+        // testcase
         solve();
     }
     return 0;

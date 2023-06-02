@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,10 +16,11 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
-    while (ct--)
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
@@ -30,23 +30,42 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    ll n, q;
+    cin >> n >> q;
+    vector<ll> v(n);
+
+    for (auto &i : v)
+    {
+        cin >> i;
+    }
+    sort(v.begin(), v.end());
+    vector<ll> prefixSum(n + 1, 0);
+    for (ll i = 1; i <= n; i++)
+    {
+        prefixSum[i] += prefixSum[i - 1] + 1;
+    }
+    cout << nn;
+    while (q--)
+    {
+        ll x, y;
+        cin >> x >> y;
+        ll posStart = lower_bound(v.begin(), v.end(), x) - v.begin();
+        ll posEnd = upper_bound(v.begin(), v.end(), y) - v.begin();
+        // cout << posStart << " " << posEnd << nn;
+        cout << prefixSum[posEnd] - prefixSum[posStart] << nn;
+    }
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
     test
     {
-        cout << "Case " << i++ << ": ";
+        testcase
         solve();
     }
     return 0;

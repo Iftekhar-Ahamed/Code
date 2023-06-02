@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -20,33 +19,66 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-
+vector<ll> binary(ll n)
+{
+    vector<ll> ans;
+    while (n > 0)
+    {
+        ans.push_back(n % 2);
+        n /= 2;
+    }
+    ans.push_back(0);
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+ll decimal(vector<ll> &v)
+{
+    reverse(v.begin(), v.end());
+    ll num = 0, p = 1;
+    for (ll i = 0; i < v.size(); i++)
+    {
+        if (v[i])
+        {
+            num += p;
+        }
+        p *= 2;
+    }
+    return num;
+}
 void solve()
 {
     ll n;
     cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    vector<ll> bin = binary(n);
+
+    next_permutation(bin.begin(), bin.end());
+    // for (auto i : bin)
+    // {
+    //     cout << i;
+    // }
+    // cout << " ";
+    ll ans = decimal(bin);
+    cout << ans << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
     test
     {
-        cout << "Case " << i++ << ": ";
+        testcase
         solve();
     }
     return 0;

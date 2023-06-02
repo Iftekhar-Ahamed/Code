@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -20,7 +19,8 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
@@ -32,21 +32,26 @@ void solve()
 {
     ll n;
     cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    if (n > 10)
+    {
+        cout << n - 10 << " " << 10 << nn;
+    }
+    else
+    {
+        cout << "0 " << n << nn;
+    }
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
     test
     {
-        cout << "Case " << i++ << ": ";
+        // testcase
         solve();
     }
     return 0;

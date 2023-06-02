@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,10 +16,11 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
-    while (ct--)
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
@@ -30,23 +30,78 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n;
-    cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    string s, t;
+    getline(cin, s);
+    getline(cin, t);
+
+    // cout << s << " " << t << nn;
+    map<char, ll> a, b;
+
+    for (ll i = 0; i < s.size(); i++)
+    {
+        if (s[i] != ' ')
+        {
+            if (s[i] >= 'A' && s[i] <= 'Z')
+                s[i] += 32;
+            a[s[i]]++;
+        }
+    }
+    for (ll i = 0; i < t.size(); i++)
+    {
+        if (t[i] != ' ')
+        {
+            if (t[i] >= 'A' && t[i] <= 'Z')
+                t[i] += 32;
+            b[t[i]]++;
+        }
+    }
+    ll f = 1;
+    for (auto [key, val] : a)
+    {
+        if (b[key] >= val)
+            continue;
+        else
+        {
+            f = 0;
+            break;
+        }
+    }
+    if (f == 1)
+    {
+        cout << "Yes" << nn;
+        return;
+    }
+    f = 1;
+    for (auto [key, val] : b)
+    {
+        if (a[key] >= val)
+            continue;
+        else
+        {
+            f = 0;
+            break;
+        }
+    }
+    if (f)
+    {
+        cout << "Yes" << nn;
+    }
+    else
+    {
+        cout << "No" << nn;
+    }
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
     test
     {
-        cout << "Case " << i++ << ": ";
+        testcase
         solve();
     }
     return 0;

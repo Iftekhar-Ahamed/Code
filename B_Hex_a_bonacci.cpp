@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -20,33 +19,62 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
-const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
+const ll mod = 10000007;
+const ll mXs = 100010;
+int a, b, c, d, e, f;
+ll dp[mXs];
+int fn(int n)
+{
+    if (n == 0)
+        return a;
+    if (n == 1)
+        return b;
+    if (n == 2)
+        return c;
+    if (n == 3)
+        return d;
+    if (n == 4)
+        return e;
+    if (n == 5)
+        return f;
 
+    if (dp[n] != -1)
+    {
+        return dp[n];
+    }
+
+    dp[n] = fn(n - 1) % mod;
+    dp[n] += fn(n - 2) % mod;
+    dp[n] += fn(n - 3) % mod;
+    dp[n] += fn(n - 4) % mod;
+    dp[n] += fn(n - 5) % mod;
+    dp[n] += fn(n - 6) % mod;
+    return dp[n];
+}
 void solve()
 {
+    memset(dp, -1, sizeof(dp));
     ll n;
-    cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    cin >> a >> b >> c >> d >> e >> f >> n;
+    cout << fn(n) % mod << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
     test
     {
-        cout << "Case " << i++ << ": ";
+        testcase
         solve();
     }
     return 0;

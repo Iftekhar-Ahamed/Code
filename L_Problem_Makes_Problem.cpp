@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -20,33 +19,54 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
-const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
+const ll Mod = 1e9 + 7;
+const ll mXs = 2e6;
+ll fact[mXs + 2];
+ll big_mod(ll base, ll power, ll mod)
+{
+    if (power == 0)
+        return 1;
+    if (power % 2 == 1)
+    {
+        ll p1 = base % mod;
+        ll p2 = (big_mod(base, power - 1, mod)) % mod;
+        return (p1 * p2) % mod;
+    }
 
+    ll p1 = (big_mod(base, power / 2, mod)) % mod;
+    return (p1 * p1) % mod;
+}
 void solve()
 {
-    ll n;
-    cin >> n;
-    string s = bitset<32>(n).to_string();
-    cout << s << " " << stoi(s, 0, 2) << nn;
-    next_permutation(s.begin(), s.end());
-    cout << stoi(s, 0, 2) << nn;
+    ll n, k;
+    cin >> n >> k;
+    ll ans = (fact[n] * fact[k - 1]) % Mod;
+    ans = big_mod(ans, Mod - 2, Mod);
+    ans = (ans * fact[n + k - 1]) % Mod;
+    cout << ans << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    ll i = 1;
+    fact[0] = fact[1] = 1;
+    for (ll i = 2; i <= mXs; i++)
+    {
+        fact[i] = (i * fact[i - 1]) % Mod;
+    }
     test
     {
-        cout << "Case " << i++ << ": ";
+        testcase
         solve();
     }
     return 0;
