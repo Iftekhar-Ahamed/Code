@@ -30,8 +30,29 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    ll a, b, k;
+    cin >> a >> b >> k;
+    vector<pair<ll, ll>> v(k);
+    vector<ll> degA(a, 0), degB(b, 0);
+    for (auto &[x, y] : v)
+    {
+        cin >> x;
+        degA[--x]++;
+    }
+    for (auto &[x, y] : v)
+    {
+        cin >> y;
+        degB[--y]++;
+    }
+    ll ans = 0;
+    for (auto [x, y] : v)
+    {
+        ans += ((k - degA[x]) + 1) - degB[y];
+        degA[x]--;
+        degB[y]--;
+        k--;
+    }
+    cout << ans << nn;
 }
 
 int main()

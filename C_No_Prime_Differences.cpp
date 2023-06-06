@@ -30,8 +30,59 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    ll n, m;
+    cin >> n >> m;
+    ll inc = (2 * m);
+    ll num = 1 + inc;
+    ll finalNum = n * m;
+    vector<vector<ll>> ans(n, vector<ll>(m));
+    ll r = 0;
+    for (ll j = 0; num <= finalNum; j++)
+    {
+        for (ll i = 0; i < m; i++)
+        {
+            ans[r][i] = num + i;
+        }
+        num += inc;
+        r++;
+    }
+    for (ll i = 1; i <= m; i++)
+    {
+        ans[r][i - 1] = i;
+    }
+    r++;
+    for (ll Num = 3 * m + 1, i = 0; Num <= 4 * m; Num++, i++)
+    {
+        ans[r][i] = Num;
+    }
+    num = m + 1;
+    r++;
+
+    for (ll j = 0; num <= finalNum; j++)
+    {
+        if (num == 3 * m + 1)
+        {
+            num += inc;
+        }
+        else
+        {
+            for (ll i = 0; i < m; i++)
+            {
+                ans[r][i] = num + i;
+            }
+            num += inc;
+            r++;
+        }
+    }
+    for (auto i : ans)
+    {
+        for (auto j : i)
+        {
+            cout << j << " ";
+        }
+        cout << nn;
+    }
+    cout << nn;
 }
 
 int main()

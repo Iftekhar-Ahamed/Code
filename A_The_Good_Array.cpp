@@ -30,8 +30,24 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    ll n, k;
+    cin >> n >> k;
+    ll ans = 0;
+    for (ll i = 1; i <= n; i++)
+    {
+        ll x = (i + k - 1) / k;
+        ll s = x, e = (n - x) + 1;
+
+        if (s < e)
+        {
+            ans = max(x + x, ans);
+        }
+        else
+        {
+            ans = max(ans, n);
+        }
+    }
+    cout << ans << nn;
 }
 
 int main()

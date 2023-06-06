@@ -30,8 +30,40 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    ll n, k, x;
+    cin >> n >> k >> x;
+    priority_queue<ll> s;
+    ll a[n];
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    sort(a, a + n);
+    for (ll i = 1; i < n; i++)
+    {
+        if (a[i] - a[i - 1] > x)
+        {
+            s.push(-(a[i] - a[i - 1]));
+            // cout << (a[i] - a[i - 1]) << nn;
+        }
+    }
+    while (!s.empty())
+    {
+        ll t = -s.top();
+        ll need = (t + x - 1) / x;
+        need--;
+
+        if (k >= need)
+        {
+            k -= need;
+            s.pop();
+        }
+        else
+        {
+            break;
+        }
+    }
+    cout << (ll)s.size() + 1LL << nn;
 }
 
 int main()
@@ -41,11 +73,10 @@ int main()
 #endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

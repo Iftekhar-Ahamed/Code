@@ -6,5 +6,6 @@
         "deque": "cpp",
         "string": "cpp",
         "vector": "cpp"
-    }
+    },
+    "cph.general.onceMaintainerMessage": false
 }

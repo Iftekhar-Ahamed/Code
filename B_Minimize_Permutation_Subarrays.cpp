@@ -30,8 +30,44 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    ll n;
+    cin >> n;
+    pair<ll, ll> p[n];
+    ll a[n];
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> a[i];
+        p[i] = {a[i], i};
+    }
+    sort(p, p + n);
+    ll mx = -1, mn = INF;
+
+    for (ll i = 0; i < n; i++)
+    {
+        mx = max(mx, p[i].second);
+        mn = min(mn, p[i].second);
+
+        ll diff = mx - mn + 1;
+        if (diff == p[i].first && p[i].first != 1)
+        {
+            if (p[i].first == n)
+            {
+                cout << 1 << " " << 1 << nn;
+            }
+            else
+            {
+                if (p[n - 1].second < mn)
+                {
+                    cout << p[n - 1].second + 1 << " " << mn + 1 << nn;
+                }
+                else
+                {
+                    cout << p[n - 1].second + 1 << " " << mx + 1 << nn;
+                }
+            }
+            return;
+        }
+    }
 }
 
 int main()

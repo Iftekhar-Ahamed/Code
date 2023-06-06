@@ -30,8 +30,22 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    ll n;
+    cin >> n;
+    ll a[n];
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    sort(a, a + n);
+    if (a[0] < 0)
+    {
+        cout << a[0] << nn;
+    }
+    else
+    {
+        cout << a[n - 1] << nn;
+    }
 }
 
 int main()

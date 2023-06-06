@@ -30,8 +30,111 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n = 1e18;
-    cout << __gcd(n, n) << nn;
+    string s;
+    cin >> s;
+    ll pos = INF, pos1 = -1;
+    ll n = s.size();
+    for (ll i = 0; i < n; i++)
+    {
+        if (s[i] != '?')
+        {
+            pos = min(i, pos);
+            pos1 = i;
+        }
+    }
+    if (pos == INF)
+    {
+        cout << (n * (n + 1)) / 2 << nn;
+        return;
+    }
+
+    while (pos - 1 >= 0)
+    {
+        if (s[pos] == '1')
+        {
+            s[--pos] = '0';
+        }
+        else
+        {
+            s[--pos] = '1';
+        }
+    }
+    while (pos1 + 1 < n)
+    {
+        if (s[pos1] == '1')
+        {
+            s[++pos1] = '0';
+        }
+        else
+        {
+            s[++pos1] = '1';
+        }
+    }
+
+    ll a[n];
+    pos = -1;
+    for (ll i = 0; i < n; i++)
+    {
+        if (s[i] == '?')
+        {
+            if (pos == -1)
+            {
+                pos = i;
+            }
+            a[i] = pos;
+        }
+        else
+        {
+            a[i] = i;
+            pos = -1;
+        }
+    }
+
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
+    pq.push({n, n});
+    char pev = s[0];
+    for (ll i = 1; i < n; i++)
+    {
+        if (s[i] == '?')
+        {
+            if (pev == '1')
+            {
+                pev = '0';
+            }
+            else
+            {
+                pev = '1';
+            }
+        }
+        else
+        {
+            if (pev == s[i])
+            {
+                if (s[i - 1] == '?')
+                {
+                    pq.push({i, a[i - 1]});
+                }
+                else
+                {
+                    pq.push({i, a[i]});
+                }
+            }
+            pev = s[i];
+        }
+    }
+
+    ll ans = 0;
+    for (ll i = 0; i < n; i++)
+    {
+        while (!pq.empty() && pq.top().second <= i)
+        {
+            pq.pop();
+        }
+        ll e = pq.top().first;
+        ll t = e - i;
+        ans += t;
+    }
+    cout << ans << nn;
 }
 
 int main()
