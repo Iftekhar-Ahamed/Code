@@ -16,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -30,47 +30,111 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    string s;
+    cin >> s;
+    ll pos = INF, pos1 = -1;
+    ll n = s.size();
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
+        if (s[i] != '?')
         {
-            cout << a[i][j] << " ";
+            pos = min(i, pos);
+            pos1 = i;
         }
-        cout << nn;
     }
+    if (pos == INF)
+    {
+        cout << (n * (n + 1)) / 2 << nn;
+        return;
+    }
+
+    while (pos - 1 >= 0)
+    {
+        if (s[pos] == '1')
+        {
+            s[--pos] = '0';
+        }
+        else
+        {
+            s[--pos] = '1';
+        }
+    }
+    while (pos1 + 1 < n)
+    {
+        if (s[pos1] == '1')
+        {
+            s[++pos1] = '0';
+        }
+        else
+        {
+            s[++pos1] = '1';
+        }
+    }
+
+    ll a[n];
+    pos = -1;
+    for (ll i = 0; i < n; i++)
+    {
+        if (s[i] == '?')
+        {
+            if (pos == -1)
+            {
+                pos = i;
+            }
+            a[i] = pos;
+        }
+        else
+        {
+            a[i] = i;
+            pos = -1;
+        }
+    }
+
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
+    pq.push({n, n});
+    char pev = s[0];
+    for (ll i = 1; i < n; i++)
+    {
+        if (s[i] == '?')
+        {
+            if (pev == '1')
+            {
+                pev = '0';
+            }
+            else
+            {
+                pev = '1';
+            }
+        }
+        else
+        {
+            if (pev == s[i])
+            {
+                if (s[i - 1] == '?')
+                {
+                    pq.push({i, a[i - 1]});
+                }
+                else
+                {
+                    pq.push({i, a[i]});
+                }
+            }
+            pev = s[i];
+        }
+    }
+
+    ll ans = 0;
+    for (ll i = 0; i < n; i++)
+    {
+        while (!pq.empty() && pq.top().second <= i)
+        {
+            pq.pop();
+        }
+        ll e = pq.top().first;
+        ll t = e - i;
+        ans += t;
+    }
+    cout << ans << nn;
 }
 
 int main()
@@ -80,10 +144,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

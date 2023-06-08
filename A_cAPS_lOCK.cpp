@@ -9,6 +9,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -19,69 +20,54 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    for (ll i = 1; i <= ct; i++)
-#define testcase cout << "Case " << i << ": ";
-#define Dpos(n) fixed << setprecision(n)
+    while (ct--)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-
+bool allUper(ll pos, string &s)
+{
+    for (ll i = pos; i < (ll)s.size(); i++)
+    {
+        if (s[i] >= 'a' && s[i] <= 'z')
+        {
+            return false;
+        }
+    }
+    return true;
+}
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    string s;
+    cin >> s;
+    if (allUper(1, s))
     {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
+        for (ll i = 0; i < s.size(); i++)
         {
-            for (ll j = 0; j < m; j++)
+            if (s[i] >= 'a' && s[i] <= 'z')
             {
-                cout << c++ << " ";
+                s[i] = char(s[i] - 'a' + 'A');
             }
-            cout << nn;
+            else
+            {
+                s[i] = char(s[i] - 'A' + 'a');
+            }
         }
-        return;
+        cout << s << nn;
     }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
+    else
     {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        cout << s << nn;
     }
 }
 
 int main()
 {
-#ifdef ONLINE_JUDGE
-    cin.tie(NULL), ios_base::sync_with_stdio(false);
-#endif
+    FIO;
     // read;
     // write;
 
-    // testcase
     solve();
 
     return 0;

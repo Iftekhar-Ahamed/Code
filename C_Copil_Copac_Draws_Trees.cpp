@@ -28,49 +28,47 @@ const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
 
+ll dfs(ll p, ll nd, vector<vector<ll>> &v, map<pair<ll, ll>, ll> &edge)
+{
+    ll ans = 0;
+    for (auto child : v[nd])
+    {
+        if (p != child)
+        {
+            if (edge[{p, nd}] > edge[{nd, child}])
+            {
+                ans = max(dfs(nd, child, v, edge) + 1, ans);
+            }
+            else
+            {
+                ans = max(dfs(nd, child, v, edge), ans);
+            }
+        }
+    }
+    return ans;
+}
+
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
+    ll n;
+    cin >> n;
+    vector<vector<ll>> v(n + 1);
+    map<pair<ll, ll>, ll> edge;
     for (ll i = 1; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
+        ll x, y;
+        cin >> x >> y;
+        v[x].push_back(y);
+        v[y].push_back(x);
+        edge[{x, y}] = i;
+        edge[{y, x}] = i;
     }
-    for (ll i = 0; i < n; i++)
+    ll ans = 0;
+    for (auto i : v[1])
     {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        ans = max(ans, dfs(1, i, v, edge));
     }
+    cout << ans + 1 << nn;
 }
 
 int main()
@@ -80,10 +78,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

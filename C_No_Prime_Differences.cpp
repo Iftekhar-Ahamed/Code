@@ -16,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -32,45 +32,57 @@ void solve()
 {
     ll n, m;
     cin >> n >> m;
-    if (n == m && n == 1)
+    ll inc = (2 * m);
+    ll num = 1 + inc;
+    ll finalNum = n * m;
+    vector<vector<ll>> ans(n, vector<ll>(m));
+    ll r = 0;
+    for (ll j = 0; num <= finalNum; j++)
     {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
+        for (ll i = 0; i < m; i++)
         {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
+            ans[r][i] = num + i;
         }
-        return;
+        num += inc;
+        r++;
     }
-    ll a[n][m];
+    for (ll i = 1; i <= m; i++)
+    {
+        ans[r][i - 1] = i;
+    }
+    r++;
+    for (ll Num = 3 * m + 1, i = 0; Num <= 4 * m; Num++, i++)
+    {
+        ans[r][i] = Num;
+    }
+    num = m + 1;
+    r++;
 
-    for (ll i = 0; i < m; i++)
+    for (ll j = 0; num <= finalNum; j++)
     {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
+        if (num == 3 * m + 1)
         {
-            a[i][j] = a[0][j] * (m + i + 1);
+            num += inc;
+        }
+        else
+        {
+            for (ll i = 0; i < m; i++)
+            {
+                ans[r][i] = num + i;
+            }
+            num += inc;
+            r++;
         }
     }
-    for (ll i = 0; i < n; i++)
+    for (auto i : ans)
     {
-        for (ll j = 0; j < m; j++)
+        for (auto j : i)
         {
-            cout << a[i][j] << " ";
+            cout << j << " ";
         }
         cout << nn;
     }
+    cout << nn;
 }
 
 int main()
@@ -80,10 +92,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

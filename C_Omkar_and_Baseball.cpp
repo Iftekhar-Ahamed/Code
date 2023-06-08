@@ -30,46 +30,43 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    ll n;
+    cin >> n;
+    ll a[n];
+    for (ll i = 0; i < n; i++)
+        cin >> a[i];
+    ll c = 0, f = 0;
+    ll i = -1, j = n;
+    while (i + 1 < n && a[i + 1] == i + 2)
+    {
+        i++;
+    }
+    while (i < j - 1 && a[j - 1] == j)
+    {
+        j--;
+    }
+    i++, j--;
+    while (i < j)
+    {
+        if (a[i] != i + 1)
+            c++;
+        else
+            f++;
+        i++;
+    }
+    // cout << c << " " << f << nn;
+
+    if (c && f)
+    {
+        cout << 2 << nn;
+    }
+    else if (c)
+    {
+        cout << 1 << nn;
+    }
+    else
     {
         cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
     }
 }
 
@@ -80,10 +77,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

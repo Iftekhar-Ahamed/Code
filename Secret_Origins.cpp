@@ -33,7 +33,7 @@ void solve()
     ll n;
     cin >> n;
     string s = bitset<32>(n).to_string();
-    // cout << s << " " << stoi(s, 0, 2) << nn;
+    cout << s << " " << stoi(s, 0, 2) << nn;
     next_permutation(s.begin(), s.end());
     cout << stoi(s, 0, 2) << nn;
 }

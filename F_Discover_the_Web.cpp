@@ -30,46 +30,53 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    string cmd;
+    stack<string> a, b;
+    a.push("http://www.lightoj.com/");
+    while (cin >> cmd && cmd != "QUIT")
     {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
+        if (cmd == "BACK")
         {
-            for (ll j = 0; j < m; j++)
+            if (!b.empty())
             {
-                cout << c++ << " ";
+                auto t = b.top();
+                b.pop();
+                a.push(t);
+                cout << t << nn;
             }
-            cout << nn;
+            else
+            {
+                cout << "Ignored" << nn;
+            }
         }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
+        else if (cmd == "VISIT")
         {
-            a[i][j] = a[0][j] * (m + i + 1);
+            string t;
+            cin >> t;
+            auto s = a.top();
+            a.pop();
+            b.push(s);
+            while (!a.empty())
+            {
+                a.pop();
+            }
+            a.push(t);
+            cout << a.top() << nn;
         }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
+        else
         {
-            cout << a[i][j] << " ";
+            if (a.size() < 2)
+            {
+                cout << "Ignored" << nn;
+            }
+            else
+            {
+                auto t = a.top();
+                a.pop();
+                b.push(t);
+                cout << a.top() << nn;
+            }
         }
-        cout << nn;
     }
 }
 
@@ -80,10 +87,13 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        testcase
+                cout
+            << nn;
+        solve();
+    }
     return 0;
 }
 /*

@@ -30,47 +30,40 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    ll n;
+    string s;
+    cin >> n >> s;
+    set<ll> ss;
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
+        if (s[i] == '*')
         {
-            cout << a[i][j] << " ";
+            ss.insert(i + 1);
         }
-        cout << nn;
     }
+    ll t = ss.size();
+    ll pos = 0, c = 0;
+    for (ll i = 0; i < n; i++)
+    {
+        if (s[i] == '*')
+        {
+            if (c == t / 2)
+            {
+                pos = i + 1;
+                break;
+            }
+            c++;
+        }
+    }
+
+    ll ans = 0;
+
+    auto val = ss.begin();
+    for (ll j = pos - (t / 2); val != ss.end(); j++, val++)
+    {
+        ans += abs(j - *val);
+    }
+    cout << ans << nn;
 }
 
 int main()
@@ -80,10 +73,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

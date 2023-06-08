@@ -30,46 +30,55 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    ll n;
+    cin >> n;
+    ll a[n];
+    map<ll, set<ll>> mp;
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
+        cin >> a[i];
+        mp[a[i]].insert(i);
+    }
+
+    for (ll j = 1; j < n; j++)
+    {
+        ll sum = a[0] + a[j];
+
+        map<ll, set<ll>> t = mp;
+        vector<pair<ll, ll>> ans;
+        bool f = true;
+
+        for (auto &[key, val] : t)
         {
-            cout << a[i][j] << " ";
+            while (!val.empty() && f)
+            {
+
+                ll need = sum - key;
+                ll x = *val.begin();
+                val.erase(val.begin());
+
+                if (t.count(need) && t[need].size())
+                {
+                    ans.push_back({x, *t[need].begin()});
+                    t[need].erase(t[need].begin());
+                }
+                else
+                {
+                    f = false;
+                    break;
+                }
+            }
+            if (f == false)
+                break;
         }
-        cout << nn;
+        if (f)
+        {
+            for (auto [x, y] : ans)
+            {
+                cout << x + 1 << " " << y + 1 << nn;
+            }
+            return;
+        }
     }
 }
 

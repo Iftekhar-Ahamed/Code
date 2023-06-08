@@ -27,50 +27,20 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-
+void reverseMY(string &s)
+{
+    for (ll i = 0, j = s.size() - 1; i < j; i++, j--)
+    {
+        swap(s[i], s[j]);
+    }
+}
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
-    }
+    string s, t;
+    cin >> s;
+    t = s;
+    reverseMY(s);
+    cout << (s == t ? "Yes" : "No") << nn;
 }
 
 int main()
@@ -80,10 +50,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        testcase
+        solve();
+    }
     return 0;
 }
 /*

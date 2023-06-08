@@ -25,52 +25,31 @@ using namespace std;
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
-const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
+const ll Mod = 1e9 + 7;
+const ll mXs = 2e6;
+ll fact[mXs + 2];
+ll big_mod(ll base, ll power, ll mod)
+{
+    if (power == 0)
+        return 1;
+    if (power % 2 == 1)
+    {
+        ll p1 = base % mod;
+        ll p2 = (big_mod(base, power - 1, mod)) % mod;
+        return (p1 * p2) % mod;
+    }
 
+    ll p1 = (big_mod(base, power / 2, mod)) % mod;
+    return (p1 * p1) % mod;
+}
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
-    }
+    ll n, k;
+    cin >> n >> k;
+    ll ans = (fact[n] * fact[k - 1]) % Mod;
+    ans = big_mod(ans, Mod - 2, Mod);
+    ans = (ans * fact[n + k - 1]) % Mod;
+    cout << ans << nn;
 }
 
 int main()
@@ -80,10 +59,16 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    fact[0] = fact[1] = 1;
+    for (ll i = 2; i <= mXs; i++)
+    {
+        fact[i] = (i * fact[i - 1]) % Mod;
+    }
+    test
+    {
+        testcase
+        solve();
+    }
     return 0;
 }
 /*

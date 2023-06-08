@@ -30,46 +30,37 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
+    ll n, k;
+    cin >> n >> k;
 
-    for (ll i = 0; i < m; i++)
+    pair<char, ll> v[k];
+
+    ll c = 0;
+    for (ll i = 0; i < k; i++)
     {
-        a[0][i] = 2 + i;
+        v[i] = {'a' + i, 0};
     }
-    for (ll i = 1; i < n; i++)
+
+    while (1)
     {
-        for (ll j = 0; j < m; j++)
+
+        for (ll j = 0; j < k; j++)
         {
-            a[i][j] = a[0][j] * (m + i + 1);
+            c++;
+            v[j].second++;
+            if (c == n)
+            {
+                for (auto [a, b] : v)
+                {
+                    for (ll yy = 0; yy < b; yy++)
+                    {
+                        cout << a;
+                    }
+                }
+                cout << nn;
+                return;
+            }
         }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
     }
 }
 
@@ -80,10 +71,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

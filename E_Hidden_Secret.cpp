@@ -16,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -30,46 +30,65 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
+    string s, t;
+    getline(cin, s);
+    getline(cin, t);
 
-    for (ll i = 0; i < m; i++)
+    // cout << s << " " << t << nn;
+    map<char, ll> a, b;
+
+    for (ll i = 0; i < s.size(); i++)
     {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
+        if (s[i] != ' ')
         {
-            a[i][j] = a[0][j] * (m + i + 1);
+            if (s[i] >= 'A' && s[i] <= 'Z')
+                s[i] += 32;
+            a[s[i]]++;
         }
     }
-    for (ll i = 0; i < n; i++)
+    for (ll i = 0; i < t.size(); i++)
     {
-        for (ll j = 0; j < m; j++)
+        if (t[i] != ' ')
         {
-            cout << a[i][j] << " ";
+            if (t[i] >= 'A' && t[i] <= 'Z')
+                t[i] += 32;
+            b[t[i]]++;
         }
-        cout << nn;
+    }
+    ll f = 1;
+    for (auto [key, val] : a)
+    {
+        if (b[key] >= val)
+            continue;
+        else
+        {
+            f = 0;
+            break;
+        }
+    }
+    if (f == 1)
+    {
+        cout << "Yes" << nn;
+        return;
+    }
+    f = 1;
+    for (auto [key, val] : b)
+    {
+        if (a[key] >= val)
+            continue;
+        else
+        {
+            f = 0;
+            break;
+        }
+    }
+    if (f)
+    {
+        cout << "Yes" << nn;
+    }
+    else
+    {
+        cout << "No" << nn;
     }
 }
 
@@ -80,10 +99,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        testcase
+        solve();
+    }
     return 0;
 }
 /*

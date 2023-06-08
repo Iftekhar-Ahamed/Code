@@ -30,47 +30,61 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    ll n, k;
+    cin >> n >> k;
+    map<ll, vector<ll>> mp;
+    vector<ll> x(n);
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        cin >> x[i];
+        if (mp[x[i]].size() < k)
+            mp[x[i]].push_back(i);
     }
+    vector<ll> ans(n, 0), a;
+    ll c = 1;
+    for (auto [key, val] : mp)
+    {
+        if (val.size() == k)
+        {
+            ll t = 1;
+            for (auto i : val)
+            {
+                ans[i] = t++;
+            }
+        }
+        else
+        {
+            for (auto i : val)
+            {
+                a.push_back(i);
+            }
+        }
+    }
+    ll i = 0;
+    while (i < a.size())
+    {
+        if ((i + k - 1) < a.size())
+        {
+
+            for (ll j = 0; j < k; j++)
+            {
+                c = c % (k + 1);
+                if (c == 0)
+                    c = 1;
+                ans[a[i++]] = c++;
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    for (auto i : ans)
+    {
+        cout << i << " ";
+    }
+    cout << nn;
 }
 
 int main()
@@ -80,10 +94,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

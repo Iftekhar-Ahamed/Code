@@ -30,47 +30,24 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
+    string s;
+    ll n;
+    cin >> n >> s;
+    ll ans = 1, c = 1;
 
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
     for (ll i = 1; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
+        if (s[i - 1] == s[i])
         {
-            a[i][j] = a[0][j] * (m + i + 1);
+            c++;
         }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
+        else
         {
-            cout << a[i][j] << " ";
+            c = 1;
         }
-        cout << nn;
+        ans = max(ans, c);
     }
+    cout << ans + 1 << nn;
 }
 
 int main()
@@ -80,10 +57,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

@@ -16,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -30,47 +30,29 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    ll a, b, k;
+    cin >> a >> b >> k;
+    vector<pair<ll, ll>> v(k);
+    vector<ll> degA(a, 0), degB(b, 0);
+    for (auto &[x, y] : v)
     {
-        cout << 0 << nn;
-        return;
+        cin >> x;
+        degA[--x]++;
     }
-    else if (n == 1 || m == 1)
+    for (auto &[x, y] : v)
     {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
+        cin >> y;
+        degB[--y]++;
     }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
+    ll ans = 0;
+    for (auto [x, y] : v)
     {
-        a[0][i] = 2 + i;
+        ans += ((k - degA[x]) + 1) - degB[y];
+        degA[x]--;
+        degB[y]--;
+        k--;
     }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
-    }
+    cout << ans << nn;
 }
 
 int main()
@@ -80,10 +62,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

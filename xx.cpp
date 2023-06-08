@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -20,61 +19,58 @@ using namespace std;
 #define test   \
     ll ct;     \
     cin >> ct; \
-    while (ct--)
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool isPrime(ll n)
-{
-    for (ll i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            return false;
-        }
-    }
-    return true;
-}
-void primeFactor(vector<ll> &v, ll n)
-{
-    for (ll i = 2; i <= n; i++)
-    {
-        if (isPrime(i) && n % i == 0)
-        {
-            while (n % i == 0)
-            {
-                n /= i;
-                v.push_back(i);
-            }
-        }
-    }
-    if (n > 1)
-    {
-        v.push_back(n);
-    }
-}
+
 void solve()
 {
     ll n;
     cin >> n;
-
-    vector<ll> x;
-    primeFactor(x, n);
-    for (auto i : x)
+    ll a[n];
+    for (ll i = 0; i < n; i++)
     {
-        cout << i << nn;
+        cin >> a[i];
+        // a[i] = rand() % 100;
     }
+    ll c = 0;
+    // n*n*n = n^3
+    for (ll i = 0; i < n; i++)
+    {
+        for (ll j = i + 1; j < n; j++)
+        {
+            for (ll k = j + 1; k < n; k++)
+            {
+                if (a[j] - a[i] == a[k] - a[j])
+                {
+                    cout << "No" << nn;
+                    return;
+                }
+                c++;
+            }
+        }
+    }
+
+    // cout << c << nn;
+
+    cout << "Yes" << nn;
 }
 
 int main()
 {
-
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
     test
     {
+        // testcase
         solve();
     }
     return 0;

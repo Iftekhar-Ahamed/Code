@@ -30,47 +30,35 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    ll n;
+    cin >> n;
+    string a, b;
+    cin >> a >> b;
+    ll ans = 0, c = 0;
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        if (a[i] != b[i])
+            ans += 2;
     }
+    ll last = -1;
+    for (ll i = 1; i < n; i++)
+    {
+        if (a[i] == b[i] && a[i - 1] == b[i - 1] && a[i] != a[i - 1])
+        {
+            last = i;
+            c++;
+            i++;
+        }
+        else if (a[i - 1] == b[i - 1])
+        {
+            ans += (a[i - 1] == '0' ? 1 : 0);
+        }
+    }
+    if (last != (n - 1) && a[n - 1] == b[n - 1])
+    {
+        ans += (a[n - 1] == '0' ? 1 : 0);
+    }
+    cout << ans + (c * 2) << nn;
 }
 
 int main()
@@ -80,10 +68,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

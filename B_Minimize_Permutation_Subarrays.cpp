@@ -16,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -30,46 +30,43 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    ll n;
+    cin >> n;
+    pair<ll, ll> p[n];
+    ll a[n];
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
+        cin >> a[i];
+        p[i] = {a[i], i};
+    }
+    sort(p, p + n);
+    ll mx = -1, mn = INF;
+
+    for (ll i = 0; i < n; i++)
+    {
+        mx = max(mx, p[i].second);
+        mn = min(mn, p[i].second);
+
+        ll diff = mx - mn + 1;
+        if (diff == p[i].first && p[i].first != 1)
         {
-            cout << a[i][j] << " ";
+            if (p[i].first == n)
+            {
+                cout << 1 << " " << 1 << nn;
+            }
+            else
+            {
+                if (p[n - 1].second < mn)
+                {
+                    cout << p[n - 1].second + 1 << " " << mn + 1 << nn;
+                }
+                else
+                {
+                    cout << p[n - 1].second + 1 << " " << mx + 1 << nn;
+                }
+            }
+            return;
         }
-        cout << nn;
     }
 }
 
@@ -80,10 +77,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

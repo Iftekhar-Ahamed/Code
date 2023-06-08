@@ -16,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -30,46 +30,29 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
+    ll n, q;
+    cin >> n >> q;
+    vector<ll> v(n);
 
-    for (ll i = 0; i < m; i++)
+    for (auto &i : v)
     {
-        a[0][i] = 2 + i;
+        cin >> i;
     }
-    for (ll i = 1; i < n; i++)
+    sort(v.begin(), v.end());
+    vector<ll> prefixSum(n + 1, 0);
+    for (ll i = 1; i <= n; i++)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
+        prefixSum[i] += prefixSum[i - 1] + 1;
     }
-    for (ll i = 0; i < n; i++)
+    cout << nn;
+    while (q--)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        ll x, y;
+        cin >> x >> y;
+        ll posStart = lower_bound(v.begin(), v.end(), x) - v.begin();
+        ll posEnd = upper_bound(v.begin(), v.end(), y) - v.begin();
+        // cout << posStart << " " << posEnd << nn;
+        cout << prefixSum[posEnd] - prefixSum[posStart] << nn;
     }
 }
 
@@ -80,10 +63,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        testcase
+        solve();
+    }
     return 0;
 }
 /*

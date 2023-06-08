@@ -26,50 +26,41 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
-
+const ll mXs = 1e3;
+set<ll> s;
+void precal(ll num, ll n)
+{
+    while (num + n <= mXs)
+    {
+        num += n;
+        cout << num << nn;
+        s.insert(num);
+        precal(num, (n * 10) + 1);
+    }
+}
+bool possible(ll n)
+{
+    for (ll i = 0; i * 11 <= n; i++)
+    {
+        ll ex = n - i * 11;
+        if (ex % 111 == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    ll n;
+    cin >> n;
+    if (possible(n))
     {
-        cout << 0 << nn;
-        return;
+        cout << "YES" << nn;
     }
-    else if (n == 1 || m == 1)
+    else
     {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        cout << "NO" << nn;
     }
 }
 
@@ -80,10 +71,12 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    // precal(0, 11);
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

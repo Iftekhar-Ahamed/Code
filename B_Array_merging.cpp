@@ -30,47 +30,57 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    ll n;
+    cin >> n;
+    ll a[n], b[n];
+    for (ll i = 0; i < n; i++)
     {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
+        cin >> a[i];
     }
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        cin >> b[i];
     }
+    map<ll, ll> x, y;
+    x[a[0]] = 1;
+    ll c = 1;
+    for (ll i = 1; i < n; i++)
+    {
+        if (a[i] == a[i - 1])
+        {
+            c++;
+        }
+        else
+        {
+            c = 1;
+        }
+        x[a[i]] = max(x[a[i]], c);
+    }
+    c = 1;
+    y[b[0]] = 1;
+
+    for (ll i = 1; i < n; i++)
+    {
+        if (b[i] == b[i - 1])
+        {
+            c++;
+        }
+        else
+        {
+            c = 1;
+        }
+        y[b[i]] = max(y[b[i]], c);
+    }
+    ll ans = 1;
+    for (auto [key, val] : x)
+    {
+        ans = max(ans, y[key] + val);
+    }
+    for (auto [key, val] : y)
+    {
+        ans = max(ans, x[key] + val);
+    }
+    cout << ans << nn;
 }
 
 int main()
@@ -80,10 +90,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

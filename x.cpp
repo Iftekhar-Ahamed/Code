@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,48 +16,34 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
-    while (ct--)
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
+#define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-void f(vector<ll> &a, ll x)
-{
-    if (x == 1)
-    {
-        return;
-    }
-    swap(a[x], a[x - 1]);
-}
+
 void solve()
 {
-
-    ll n;
-    cin >> n;
-    vector<ll> a(n + 1);
-    for (ll i = 1; i <= n; i++)
-        a[i] = i;
-
-    f(a, n);
-    f(a, n);
-    for (ll i = 1; i <= n; i++)
-    {
-        cout << a[i] << " ";
-    }
-    cout << nn;
+    ll n = 1e18;
+    cout << __gcd(n, n) << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
     test
     {
+        // testcase
         solve();
     }
     return 0;

@@ -30,46 +30,106 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    stack<pair<char, ll>> st;
+    vector<pair<char, ll>> ex;
+    ll c = 0;
+    vector<ll> ans(s.size(), 0);
+    string t = s;
+    reverse(s.begin(), s.end());
+    bool f = false;
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
+        if (s[i] == ')')
         {
-            cout << a[i][j] << " ";
+            if (st.empty())
+            {
+                f = true;
+            }
+            else
+            {
+                st.pop();
+            }
+        }
+        else
+        {
+            st.push({s[i], i});
+        }
+    }
+    if (st.empty() && !f)
+    {
+        cout << 1 << nn;
+        for (auto i : ans)
+        {
+            cout << 1 << " ";
         }
         cout << nn;
+        return;
+    }
+    else
+    {
+        s = t;
+        st = stack<pair<char, ll>>();
+    }
+
+    for (ll i = 0; i < n; i++)
+    {
+        if (s[i] == ')')
+        {
+            if (st.empty())
+            {
+                ex.push_back({s[i], i});
+            }
+            else
+            {
+                c = 1;
+                auto [ch, ind] = st.top();
+                ans[ind] = 1;
+                ans[i] = 1;
+                st.pop();
+            }
+        }
+        else
+        {
+            st.push({s[i], i});
+        }
+    }
+    while (!st.empty())
+    {
+
+        ex.push_back(st.top());
+        st.pop();
+    }
+    if (ex.size() >= 1)
+    {
+        c++;
+    }
+    if (ex.size() && ex.size() % 2 == 1)
+    {
+        cout << -1 << nn;
+        return;
+    }
+    ll x = 0;
+    for (auto [ch, i] : ex)
+    {
+        ans[i] = c;
+        x += (ch == ')' ? 1 : -1);
+    }
+    if (x == 0)
+    {
+        cout << c << nn;
+        for (auto i : ans)
+        {
+            cout << i << " ";
+        }
+        cout << nn;
+    }
+    else
+    {
+        cout << -1 << nn;
     }
 }
 
@@ -80,10 +140,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        // testcase
+        solve();
+    }
     return 0;
 }
 /*

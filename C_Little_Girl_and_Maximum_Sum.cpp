@@ -30,47 +30,35 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
+    ll n, q;
+    cin >> n >> q;
+    vector<ll> v(n + 2, 0), a(n);
+    for (auto &i : a)
     {
-        cout << 0 << nn;
-        return;
+        cin >> i;
     }
-    else if (n == 1 || m == 1)
+    sort(a.rbegin(), a.rend());
+    while (q--)
     {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
+        ll x, y;
+        cin >> x >> y;
+        v[x]++;
+        v[y + 1]--;
     }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
+    vector<ll> ans;
+    ll c = 0;
+    for (ll i = 1; i <= n; i++)
     {
-        a[0][i] = 2 + i;
+        c += v[i];
+        ans.push_back(c);
     }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
+    sort(ans.rbegin(), ans.rend());
+    ll totalSum = 0;
     for (ll i = 0; i < n; i++)
     {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
+        totalSum += (ans[i] * a[i]);
     }
+    cout << totalSum << nn;
 }
 
 int main()

@@ -25,52 +25,44 @@ using namespace std;
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
-const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
+const ll mod = 10000007;
+const ll mXs = 100010;
+int a, b, c, d, e, f;
+ll dp[mXs];
+int fn(int n)
+{
+    if (n == 0)
+        return a;
+    if (n == 1)
+        return b;
+    if (n == 2)
+        return c;
+    if (n == 3)
+        return d;
+    if (n == 4)
+        return e;
+    if (n == 5)
+        return f;
 
+    if (dp[n] != -1)
+    {
+        return dp[n];
+    }
+
+    dp[n] = fn(n - 1) % mod;
+    dp[n] += fn(n - 2) % mod;
+    dp[n] += fn(n - 3) % mod;
+    dp[n] += fn(n - 4) % mod;
+    dp[n] += fn(n - 5) % mod;
+    dp[n] += fn(n - 6) % mod;
+    return dp[n];
+}
 void solve()
 {
-    ll n, m;
-    cin >> n >> m;
-    if (n == m && n == 1)
-    {
-        cout << 0 << nn;
-        return;
-    }
-    else if (n == 1 || m == 1)
-    {
-        ll c = 2;
-        for (ll i = 0; i < n; i++)
-        {
-            for (ll j = 0; j < m; j++)
-            {
-                cout << c++ << " ";
-            }
-            cout << nn;
-        }
-        return;
-    }
-    ll a[n][m];
-
-    for (ll i = 0; i < m; i++)
-    {
-        a[0][i] = 2 + i;
-    }
-    for (ll i = 1; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            a[i][j] = a[0][j] * (m + i + 1);
-        }
-    }
-    for (ll i = 0; i < n; i++)
-    {
-        for (ll j = 0; j < m; j++)
-        {
-            cout << a[i][j] << " ";
-        }
-        cout << nn;
-    }
+    memset(dp, -1, sizeof(dp));
+    ll n;
+    cin >> a >> b >> c >> d >> e >> f >> n;
+    cout << fn(n) % mod << nn;
 }
 
 int main()
@@ -80,10 +72,11 @@ int main()
 #endif
     // read;
     // write;
-
-    // testcase
-    solve();
-
+    test
+    {
+        testcase
+        solve();
+    }
     return 0;
 }
 /*
