@@ -2,7 +2,8 @@
     "files.associations": {
         "*.tcc": "cpp",
         "list": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "iomanip": "cpp"
     },
     "cph.general.onceMaintainerMessage": false
 }

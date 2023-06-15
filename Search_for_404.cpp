@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,64 +16,59 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
-const ll mod = 1e9 + 7;
+const ll MOD = 1e9 + 7;
 const ll mXs = 1e6;
+ll cal(ll N, string &S, vector<vector<ll>> &dp)
+{
+    for (int i = 1; i <= N; i++)
+    {
+        if (S[i - 1] == '*')
+        {
+            dp[i][0] = (2 * dp[i - 1][0]) % MOD;
+        }
+        else if (S[i - 1] == '4')
+        {
+            dp[i][1] = (dp[i - 1][0] + dp[i - 1][1]) % MOD;
+        }
+        else if (S[i - 1] == '0')
+        {
+            dp[i][2] = (dp[i - 1][1] + dp[i - 1][2]) % MOD;
+        }
 
+        dp[i][3] = (2 * dp[i - 1][3]) % MOD;
+    }
+    return dp[N][3];
+}
 void solve()
 {
-    ll p, l;
-    cin >> p >> l;
-
-    if (l * 2 >= p)
-    {
-        cout << "impossible" << nn;
-        return;
-    }
-    vector<ll> ans;
-    ll t = p - l;
-    // cout << t << nn;
-    for (ll i = 1; i * i <= t; i++)
-    {
-        if (t % i == 0)
-        {
-
-            ans.push_back(i);
-
-            ll tmp = t / i;
-
-            if (tmp != i)
-
-                ans.push_back(tmp);
-        }
-    }
-
-    sort(ans.begin(), ans.end());
-
-    for (auto i : ans)
-    {
-        if (i > l)
-            cout << i << " ";
-    }
-    cout << nn;
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    vector<vector<ll>> v(n + 1, vector<ll>(4, 0));
+    v[0][0] = 1;
+    cout << cal(n, s, v) << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
     test
     {
-        testcase
+        // testcase
         solve();
     }
     return 0;

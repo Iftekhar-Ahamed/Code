@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -31,52 +30,45 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll p, l;
-    cin >> p >> l;
-
-    if (l * 2 >= p)
+    ll n, k;
+    cin >> n >> k;
+    ll a[n + 1][n + 1];
+    for (ll i = 1; i <= n; i++)
     {
-        cout << "impossible" << nn;
-        return;
-    }
-    vector<ll> ans;
-    ll t = p - l;
-    // cout << t << nn;
-    for (ll i = 1; i * i <= t; i++)
-    {
-        if (t % i == 0)
+        for (ll j = 1; j <= n; j++)
         {
-
-            ans.push_back(i);
-
-            ll tmp = t / i;
-
-            if (tmp != i)
-
-                ans.push_back(tmp);
+            cin >> a[i][j];
         }
     }
-
-    sort(ans.begin(), ans.end());
-
-    for (auto i : ans)
+    ll ans = 0;
+    for (ll i = 1; (i + k) - 1 <= n; i++)
     {
-        if (i > l)
-            cout << i << " ";
+        for (ll j = k; j <= n; j++)
+        {
+            ll r = i, c = (j - k) + 1;
+            ll r1 = i, c1 = j;
+            ll r2 = (i + k) - 1, c2 = (j - k) + 1;
+            ll r3 = (i + k) - 1, c3 = j;
+            if (a[r][c] == a[r1][c1] && a[r][c] == a[r2][c2] && a[r][c] == a[r3][c3])
+            {
+                ans++;
+            }
+        }
     }
-    cout << nn;
+    cout << ans << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    test
-    {
-        testcase
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

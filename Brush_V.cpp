@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -28,48 +27,67 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
+ll dijkstra(ll src, vector<vector<pair<ll, ll>>> &graph, ll n)
+{
+    vector<ll> result(n + 1, INF);
+
+    result[src] = 0;
+
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
+    pq.push({0, src});
+
+    while (!pq.empty())
+    {
+        ll u = pq.top().second;
+        ll curD = pq.top().first;
+        pq.pop();
+
+        if (curD > result[u])
+            continue;
+
+        for (auto it : graph[u])
+        {
+            ll v = it.first;
+            ll cost = it.second;
+
+            if (result[v] > cost + curD)
+            {
+                result[v] = cost + curD;
+                pq.push({result[v], v});
+            }
+        }
+    }
+    return result[n];
+}
 
 void solve()
 {
-    ll p, l;
-    cin >> p >> l;
-
-    if (l * 2 >= p)
+    ll n, m;
+    cin >> n >> m;
+    vector<vector<pair<ll, ll>>> v(n + 1);
+    for (ll i = 0; i < m; i++)
     {
-        cout << "impossible" << nn;
-        return;
+        ll x, y, c;
+        cin >> x >> y >> c;
+        v[x].push_back({y, c});
+        v[y].push_back({x, c});
     }
-    vector<ll> ans;
-    ll t = p - l;
-    // cout << t << nn;
-    for (ll i = 1; i * i <= t; i++)
+    ll ans = dijkstra(1, v, n);
+    if (ans == INF)
     {
-        if (t % i == 0)
-        {
-
-            ans.push_back(i);
-
-            ll tmp = t / i;
-
-            if (tmp != i)
-
-                ans.push_back(tmp);
-        }
+        cout << "Impossible" << nn;
     }
-
-    sort(ans.begin(), ans.end());
-
-    for (auto i : ans)
+    else
     {
-        if (i > l)
-            cout << i << " ";
+        cout << ans << nn;
     }
-    cout << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
     test

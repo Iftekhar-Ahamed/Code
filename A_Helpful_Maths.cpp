@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,9 +16,9 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
     for (ll i = 1; i <= ct; i++)
 #define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
@@ -31,50 +30,25 @@ const ll mXs = 1e6;
 
 void solve()
 {
-    ll p, l;
-    cin >> p >> l;
-
-    if (l * 2 >= p)
+    string s;
+    cin >> s;
+    for (int i = 0, j = s.size() - 1; i <= j; i++, j--)
     {
-        cout << "impossible" << nn;
-        return;
+        swap(s[i], s[j]);
     }
-    vector<ll> ans;
-    ll t = p - l;
-    // cout << t << nn;
-    for (ll i = 1; i * i <= t; i++)
-    {
-        if (t % i == 0)
-        {
-
-            ans.push_back(i);
-
-            ll tmp = t / i;
-
-            if (tmp != i)
-
-                ans.push_back(tmp);
-        }
-    }
-
-    sort(ans.begin(), ans.end());
-
-    for (auto i : ans)
-    {
-        if (i > l)
-            cout << i << " ";
-    }
-    cout << nn;
+    cout << s << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
     test
     {
-        testcase
+        // testcase
         solve();
     }
     return 0;
