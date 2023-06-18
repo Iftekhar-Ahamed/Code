@@ -9,7 +9,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define FIO cin.tie(NULL), ios_base::sync_with_stdio(false)
 #define read freopen("0_input.txt", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
@@ -17,66 +16,65 @@ using namespace std;
 #define nn "\n"
 #define EPS 1e-9
 #define PI 3.1415926535897932384626433832795
-#define test   \
-    ll ct;     \
-    cin >> ct; \
-    while (ct--)
+#define test                 \
+    ll ct;                   \
+    cin >> ct, cin.ignore(); \
+    for (ll i = 1; i <= ct; i++)
+#define testcase cout << "Case " << i << ": ";
 #define Dpos(n) fixed << setprecision(n)
 int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-vector<ll> primelist;
-void SieveOfEratosthenes(ll n)
-{
-    bool prime[n + 1];
-    memset(prime, true, sizeof(prime));
 
-    for (int p = 2; p * p <= n; p++)
-    {
-        if (prime[p] == true)
-        {
-            for (int i = p * p; i <= n; i += p)
-                prime[i] = false;
-        }
-    }
-    for (int p = 2; p <= n; p++)
-        if (prime[p])
-            primelist.push_back(p);
-}
 void solve()
 {
-    ll n;
-    cin >> n;
-    if (n % 2 == 0)
+    ll n, d;
+    cin >> n >> d;
+    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> q1;
+    priority_queue<pair<ll, ll>> q2;
+    vector<ll> v(n);
+    for (auto &i : v)
+        cin >> i;
+    ll i = 0;
+    while (i < d)
     {
-        n--;
-        cout << (n / 2) << " " << (n / 2) + 1 << " " << 1 << nn;
+        q1.push({v[i], i});
+        q2.push({v[i], i});
+        i++;
     }
-    else
+    ll ans = abs(q1.top().first - q2.top().first);
+    ll last = 1;
+    while (i < n)
     {
-
-        for (auto i : primelist)
+        q1.push({v[i], i});
+        q2.push({v[i], i});
+        while (!q1.empty() && q1.top().second < last)
         {
-
-            if (__gcd(i, (n - 1) - i) == 1)
-            {
-                cout << i << " " << ((n - 1) - i) << " " << 1 << nn;
-                return;
-            }
+            q1.pop();
         }
+        while (!q2.empty() && q2.top().second < last)
+        {
+            q2.pop();
+        }
+        ans = max(abs(q1.top().first - q2.top().first), ans);
+        last++;
+        i++;
     }
+    cout << ans << nn;
 }
 
 int main()
 {
-    FIO;
+#ifdef ONLINE_JUDGE
+    cin.tie(NULL), ios_base::sync_with_stdio(false);
+#endif
     // read;
     // write;
-    SieveOfEratosthenes(100000);
     test
     {
+        testcase
         solve();
     }
     return 0;
