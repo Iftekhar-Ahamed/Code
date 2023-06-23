@@ -3,7 +3,8 @@
         "*.tcc": "cpp",
         "list": "cpp",
         "random": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "iostream": "cpp"
     },
     "cph.general.onceMaintainerMessage": false
 }
