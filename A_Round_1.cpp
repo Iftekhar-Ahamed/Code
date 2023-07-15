@@ -9,7 +9,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define read freopen("0_input.txt", "r", stdin)
+#define read freopen("Round1.in", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
 #define INF (ll)1e16
@@ -27,64 +27,19 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool cmp(tuple<ll, ll, ll> &a, tuple<ll, ll, ll> &b)
-{
-    auto [as, ap, ai] = a;
-    auto [bs, bp, bi] = b;
-    if (as == bs)
-    {
-        return ap < bp;
-    }
-    return as > bs;
-}
+
 void solve()
 {
-    ll n, m, h;
-    cin >> n >> m >> h;
-    ll mys = -1, myp = -1;
-    ll mypos = 1;
-    for (ll i = 0; i < n; i++)
+    ll n;
+    cin >> n;
+    if (n <= 26)
     {
-        vector<ll> problem;
-        for (ll j = 0; j < m; j++)
-        {
-            ll t;
-            cin >> t;
-            problem.push_back(t);
-        }
-        sort(problem.begin(), problem.end());
-        ll time = 0, p = 0, s = 0, ans = 0;
-        for (ll j = 0; j < m; j++)
-        {
-
-            time += p + problem[j];
-            if (p + problem[j] <= h)
-            {
-                ans = time;
-                s++;
-            }
-            p += problem[j];
-        }
-        if (mys == -1 && myp == -1)
-        {
-            mys = s;
-            myp = ans;
-        }
-        else if (mys == s)
-        {
-            if (myp > ans)
-            {
-                // cout<<mys<<" "<<s<<" "<<myp<<""
-                mypos++;
-            }
-        }
-        else if (mys < s)
-        {
-            mypos++;
-        }
+        cout << "Yes" << nn;
     }
-
-    cout << mypos << nn;
+    else
+    {
+        cout << "No" << nn;
+    }
 }
 
 int main()
@@ -92,7 +47,7 @@ int main()
 #ifdef ONLINE_JUDGE
     cin.tie(NULL), ios_base::sync_with_stdio(false);
 #endif
-    // read;
+    read;
     // write;
     test
     {

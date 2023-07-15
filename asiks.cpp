@@ -27,64 +27,49 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool cmp(tuple<ll, ll, ll> &a, tuple<ll, ll, ll> &b)
-{
-    auto [as, ap, ai] = a;
-    auto [bs, bp, bi] = b;
-    if (as == bs)
-    {
-        return ap < bp;
-    }
-    return as > bs;
-}
+
 void solve()
 {
-    ll n, m, h;
-    cin >> n >> m >> h;
-    ll mys = -1, myp = -1;
-    ll mypos = 1;
-    for (ll i = 0; i < n; i++)
+    ll n, a, b;
+    cin >> n >> a >> b;
+    if (n == 1)
     {
-        vector<ll> problem;
-        for (ll j = 0; j < m; j++)
+        cout << "Yes" << nn;
+        return;
+    }
+    else if (a == 1)
+    {
+        if ((n - 1) % b == 0)
         {
-            ll t;
-            cin >> t;
-            problem.push_back(t);
+            cout << "Yes" << nn;
         }
-        sort(problem.begin(), problem.end());
-        ll time = 0, p = 0, s = 0, ans = 0;
-        for (ll j = 0; j < m; j++)
+        else
         {
-
-            time += p + problem[j];
-            if (p + problem[j] <= h)
-            {
-                ans = time;
-                s++;
-            }
-            p += problem[j];
+            cout << "No" << nn;
         }
-        if (mys == -1 && myp == -1)
+        return;
+    }
+    while (n > 1)
+    {
+        if (n % a)
         {
-            mys = s;
-            myp = ans;
+            ll x = n % a;
+            n -= ((x / b) + 1) * b;
         }
-        else if (mys == s)
+        else
         {
-            if (myp > ans)
-            {
-                // cout<<mys<<" "<<s<<" "<<myp<<""
-                mypos++;
-            }
-        }
-        else if (mys < s)
-        {
-            mypos++;
+            n /= a;
         }
     }
 
-    cout << mypos << nn;
+    if (n == 1)
+    {
+        cout << "Yes" << nn;
+    }
+    else
+    {
+        cout << "No" << nn;
+    }
 }
 
 int main()

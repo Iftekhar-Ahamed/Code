@@ -27,64 +27,29 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool cmp(tuple<ll, ll, ll> &a, tuple<ll, ll, ll> &b)
+ll lcs(string &X, string &Y, int m, int n, vector<vector<ll>> &dp)
 {
-    auto [as, ap, ai] = a;
-    auto [bs, bp, bi] = b;
-    if (as == bs)
+    if (m == 0 || n == 0)
+        return 0;
+    if (X[m - 1] == Y[n - 1])
+        return dp[m][n] = 1 + lcs(X, Y, m - 1, n - 1, dp);
+
+    if (dp[m][n] != -1)
     {
-        return ap < bp;
+        return dp[m][n];
     }
-    return as > bs;
+    return dp[m][n] = max(lcs(X, Y, m, n - 1, dp), lcs(X, Y, m - 1, n, dp));
 }
+
 void solve()
 {
-    ll n, m, h;
-    cin >> n >> m >> h;
-    ll mys = -1, myp = -1;
-    ll mypos = 1;
-    for (ll i = 0; i < n; i++)
-    {
-        vector<ll> problem;
-        for (ll j = 0; j < m; j++)
-        {
-            ll t;
-            cin >> t;
-            problem.push_back(t);
-        }
-        sort(problem.begin(), problem.end());
-        ll time = 0, p = 0, s = 0, ans = 0;
-        for (ll j = 0; j < m; j++)
-        {
-
-            time += p + problem[j];
-            if (p + problem[j] <= h)
-            {
-                ans = time;
-                s++;
-            }
-            p += problem[j];
-        }
-        if (mys == -1 && myp == -1)
-        {
-            mys = s;
-            myp = ans;
-        }
-        else if (mys == s)
-        {
-            if (myp > ans)
-            {
-                // cout<<mys<<" "<<s<<" "<<myp<<""
-                mypos++;
-            }
-        }
-        else if (mys < s)
-        {
-            mypos++;
-        }
-    }
-
-    cout << mypos << nn;
+    string X = "abcdefghijklmnopqrstuvwxyz";
+    string Y;
+    cin >> Y;
+    ll m = X.size();
+    ll n = Y.size();
+    vector<vector<ll>> dp(m + 1, vector<ll>(n + 1, -1));
+    cout << 26 - lcs(X, Y, m, n, dp) << nn;
 }
 
 int main()
@@ -94,11 +59,9 @@ int main()
 #endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+    // testcase
+    solve();
+
     return 0;
 }
 /*

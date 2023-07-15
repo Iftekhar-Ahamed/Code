@@ -27,64 +27,74 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool cmp(tuple<ll, ll, ll> &a, tuple<ll, ll, ll> &b)
+ll getSum(vector<ll> &p, ll bit, vector<ll> &ex)
 {
-    auto [as, ap, ai] = a;
-    auto [bs, bp, bi] = b;
-    if (as == bs)
+    ll sum = 0;
+    for (ll i = 0; i < p.size(); i++)
     {
-        return ap < bp;
+        if ((1LL << i) & bit)
+        {
+            sum += p[i];
+        }
+        else
+        {
+            ex.push_back(p[i]);
+        }
     }
-    return as > bs;
+    return sum;
+}
+ll getSum(vector<ll> &p, ll bit)
+{
+    ll sum = 0;
+    for (ll i = 0; i < p.size(); i++)
+    {
+        if ((1LL << i) & bit)
+        {
+            sum += p[i];
+        }
+    }
+    return sum;
+}
+bool possible(ll sum, vector<ll> &ex)
+{
+    ll l = ex.size();
+    for (ll i = 0; i < (1LL << l); i++)
+    {
+        if (getSum(ex, i) == sum)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 void solve()
 {
-    ll n, m, h;
-    cin >> n >> m >> h;
-    ll mys = -1, myp = -1;
-    ll mypos = 1;
-    for (ll i = 0; i < n; i++)
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> b(n);
+    for (auto &i : b)
+        cin >> i;
+    vector<ll> p(m);
+    for (auto &i : p)
+        cin >> i;
+    ll way = 0;
+    set<ll> s;
+    for (ll i = 0; i < (1LL << m); i++)
     {
-        vector<ll> problem;
-        for (ll j = 0; j < m; j++)
+        vector<ll> ex;
+        ll sum = getSum(p, i, ex);
+        if (possible(sum, ex))
         {
-            ll t;
-            cin >> t;
-            problem.push_back(t);
-        }
-        sort(problem.begin(), problem.end());
-        ll time = 0, p = 0, s = 0, ans = 0;
-        for (ll j = 0; j < m; j++)
-        {
-
-            time += p + problem[j];
-            if (p + problem[j] <= h)
+            for (auto x : b)
             {
-                ans = time;
-                s++;
+                s.insert(x + 2 * sum);
             }
-            p += problem[j];
-        }
-        if (mys == -1 && myp == -1)
-        {
-            mys = s;
-            myp = ans;
-        }
-        else if (mys == s)
-        {
-            if (myp > ans)
-            {
-                // cout<<mys<<" "<<s<<" "<<myp<<""
-                mypos++;
-            }
-        }
-        else if (mys < s)
-        {
-            mypos++;
         }
     }
-
-    cout << mypos << nn;
+    for (auto i : s)
+    {
+        cout << i << nn;
+    }
 }
 
 int main()
@@ -94,11 +104,10 @@ int main()
 #endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

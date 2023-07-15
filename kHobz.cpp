@@ -9,7 +9,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define read freopen("0_input.txt", "r", stdin)
+#define read freopen("hobz.in", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
 #define INF (ll)1e16
@@ -27,64 +27,47 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool cmp(tuple<ll, ll, ll> &a, tuple<ll, ll, ll> &b)
-{
-    auto [as, ap, ai] = a;
-    auto [bs, bp, bi] = b;
-    if (as == bs)
-    {
-        return ap < bp;
-    }
-    return as > bs;
-}
+
 void solve()
 {
-    ll n, m, h;
-    cin >> n >> m >> h;
-    ll mys = -1, myp = -1;
-    ll mypos = 1;
-    for (ll i = 0; i < n; i++)
-    {
-        vector<ll> problem;
-        for (ll j = 0; j < m; j++)
-        {
-            ll t;
-            cin >> t;
-            problem.push_back(t);
-        }
-        sort(problem.begin(), problem.end());
-        ll time = 0, p = 0, s = 0, ans = 0;
-        for (ll j = 0; j < m; j++)
-        {
+    string s;
+    cin >> s;
 
-            time += p + problem[j];
-            if (p + problem[j] <= h)
-            {
-                ans = time;
-                s++;
-            }
-            p += problem[j];
-        }
-        if (mys == -1 && myp == -1)
+    ll c = 0, c1 = 0, c2 = 0, c3 = 0;
+    for (ll i = 0; i < s.size(); i += 2)
+    {
+        if (s[i] == '1')
         {
-            mys = s;
-            myp = ans;
+            c++;
         }
-        else if (mys == s)
+        else
         {
-            if (myp > ans)
-            {
-                // cout<<mys<<" "<<s<<" "<<myp<<""
-                mypos++;
-            }
-        }
-        else if (mys < s)
-        {
-            mypos++;
+            c1++;
         }
     }
-
-    cout << mypos << nn;
+    for (ll i = 1; i < s.size(); i += 2)
+    {
+        if (s[i] == '1')
+        {
+            c2++;
+        }
+        else
+        {
+            c3++;
+        }
+    }
+    if (c3 || c1)
+    {
+        cout << "YES" << nn;
+    }
+    else if (c && c2)
+    {
+        cout << "YES" << nn;
+    }
+    else
+    {
+        cout << "NO" << nn;
+    }
 }
 
 int main()
@@ -92,7 +75,7 @@ int main()
 #ifdef ONLINE_JUDGE
     cin.tie(NULL), ios_base::sync_with_stdio(false);
 #endif
-    // read;
+    read;
     // write;
     test
     {

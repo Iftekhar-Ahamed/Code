@@ -9,7 +9,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define read freopen("0_input.txt", "r", stdin)
+#define read freopen("sieve.in", "r", stdin)
 #define write freopen("0_output.txt", "w", stdout)
 #define ll long long
 #define INF (ll)1e16
@@ -27,64 +27,58 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
-bool cmp(tuple<ll, ll, ll> &a, tuple<ll, ll, ll> &b)
+set<ll> s;
+void cal(ll n)
 {
-    auto [as, ap, ai] = a;
-    auto [bs, bp, bi] = b;
-    if (as == bs)
+    for (ll i = 1; i * i <= n; i++)
     {
-        return ap < bp;
+        if (n % i == 0)
+        {
+            s.insert(i);
+            s.insert(n / i);
+        }
     }
-    return as > bs;
 }
 void solve()
 {
-    ll n, m, h;
-    cin >> n >> m >> h;
-    ll mys = -1, myp = -1;
-    ll mypos = 1;
-    for (ll i = 0; i < n; i++)
-    {
-        vector<ll> problem;
-        for (ll j = 0; j < m; j++)
-        {
-            ll t;
-            cin >> t;
-            problem.push_back(t);
-        }
-        sort(problem.begin(), problem.end());
-        ll time = 0, p = 0, s = 0, ans = 0;
-        for (ll j = 0; j < m; j++)
-        {
+    string a, b;
+    cin >> a >> b;
+    s.clear();
+    cal(min(a.size(), b.size()));
 
-            time += p + problem[j];
-            if (p + problem[j] <= h)
+    for (auto it = s.rbegin(); it != s.rend(); it++)
+    {
+        ll i = *it;
+        if (a.size() % i == 0 && b.size() % i == 0)
+        {
+            bool f = true;
+            for (ll j = 0, pos = 0; j < a.size(); j++, pos++)
             {
-                ans = time;
-                s++;
+                if (pos == i)
+                    pos = 0;
+                if (a[pos] != a[j])
+                {
+                    f = false;
+                    break;
+                }
             }
-            p += problem[j];
-        }
-        if (mys == -1 && myp == -1)
-        {
-            mys = s;
-            myp = ans;
-        }
-        else if (mys == s)
-        {
-            if (myp > ans)
+            for (ll j = 0, pos = 0; j < b.size(); j++, pos++)
             {
-                // cout<<mys<<" "<<s<<" "<<myp<<""
-                mypos++;
+                if (pos == i)
+                    pos = 0;
+                if (a[pos] != b[j])
+                {
+                    f = false;
+                    break;
+                }
             }
-        }
-        else if (mys < s)
-        {
-            mypos++;
+            if (f)
+            {
+                cout << i << nn;
+                return;
+            }
         }
     }
-
-    cout << mypos << nn;
 }
 
 int main()
@@ -92,7 +86,7 @@ int main()
 #ifdef ONLINE_JUDGE
     cin.tie(NULL), ios_base::sync_with_stdio(false);
 #endif
-    // read;
+    read;
     // write;
     test
     {
