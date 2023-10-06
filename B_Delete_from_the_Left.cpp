@@ -30,70 +30,21 @@ const ll mXs = 1e6;
 
 void solve()
 {
-
-    ll n;
-    cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    string a, b;
+    cin >> a >> b;
+    ll total_op = a.size() + b.size();
+    for (ll i = a.size() - 1, j = b.size() - 1; i >= 0 && j >= 0; i--, j--)
     {
-        cout << 1 << nn;
-        return;
-    }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
-    {
-        if (x == 0)
+        if (a[i] != b[j])
         {
-            ans++;
-            x = a[i];
+            break;
         }
         else
         {
-            x &= a[i];
+            total_op -= 2;
         }
     }
-    if (x == 0)
-    {
-        ans++;
-    }
-    cout << ans << nn;
-
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
+    cout << total_op << nn;
 }
 
 int main()
@@ -103,11 +54,10 @@ int main()
 #endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

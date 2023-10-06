@@ -30,70 +30,34 @@ const ll mXs = 1e6;
 
 void solve()
 {
-
+    map<ll, ll> mp;
     ll n;
     cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    for (ll i = 0; i < n; i++)
     {
-        cout << 1 << nn;
-        return;
+        ll x;
+        cin >> x;
+        mp[x]++;
     }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
+    ll ans = mp[4];
+    if (mp[2] % 2 == 0)
     {
-        if (x == 0)
-        {
-            ans++;
-            x = a[i];
-        }
-        else
-        {
-            x &= a[i];
-        }
+        ans += mp[2] / 2;
     }
-    if (x == 0)
+    else
+    {
+        ans += mp[2] / 2;
+        ans++;
+        mp[1] -= min(mp[1], 2LL);
+    }
+    mp[1] -= min(mp[1], mp[3]);
+    ans += mp[3];
+    ans += mp[1] / 4;
+    if (mp[1] % 4)
     {
         ans++;
     }
     cout << ans << nn;
-
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
 }
 
 int main()
@@ -103,11 +67,10 @@ int main()
 #endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+
+    // testcase
+    solve();
+
     return 0;
 }
 /*

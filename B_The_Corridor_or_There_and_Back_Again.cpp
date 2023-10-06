@@ -30,70 +30,33 @@ const ll mXs = 1e6;
 
 void solve()
 {
-
-    ll n;
+    ll n, di, si;
     cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    vector<ll> v(400, INF);
+    for (ll i = 0; i < n; i++)
     {
-        cout << 1 << nn;
-        return;
+        cin >> di >> si;
+        v[di] = min(si, v[di]);
     }
-    x = a[0];
     ll ans = 0;
-    for (ll i = 1; i < n; i++)
+    for (ll i = 1;; i++)
     {
-        if (x == 0)
+        for (ll j = 1; j < i; j++)
         {
-            ans++;
-            x = a[i];
+            v[j]--;
+            ll diff = (i - j) + 1;
+            if (v[j] >= diff)
+            {
+                continue;
+            }
+            else
+            {
+                cout << ans << nn;
+                return;
+            }
         }
-        else
-        {
-            x &= a[i];
-        }
-    }
-    if (x == 0)
-    {
         ans++;
     }
-    cout << ans << nn;
-
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
 }
 
 int main()

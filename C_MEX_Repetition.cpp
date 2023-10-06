@@ -30,70 +30,39 @@ const ll mXs = 1e6;
 
 void solve()
 {
-
-    ll n;
-    cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> v(n);
+    set<ll> s;
+    for (auto &i : v)
+        cin >> i, s.insert(i);
+    k = k % (n + 1);
+    ll pos = n - k;
+    vector<ll> ans;
+    for (ll i = pos + 1; i < n; i++)
     {
-        cout << 1 << nn;
-        return;
+        ans.push_back(v[i]);
     }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
+    if (pos != n)
     {
-        if (x == 0)
+        for (ll i = 0; i <= n; i++)
         {
-            ans++;
-            x = a[i];
-        }
-        else
-        {
-            x &= a[i];
+            if (s.count(i) == 0)
+            {
+                ans.push_back(i);
+                break;
+            }
         }
     }
-    if (x == 0)
+    for (ll i = 0; i < pos; i++)
     {
-        ans++;
+        ans.push_back(v[i]);
     }
-    cout << ans << nn;
-
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
+    for (auto i : ans)
+    {
+        cout << i << " ";
+    }
+    cout << nn;
 }
 
 int main()

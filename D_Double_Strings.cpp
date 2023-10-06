@@ -30,70 +30,41 @@ const ll mXs = 1e6;
 
 void solve()
 {
-
     ll n;
     cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    vector<vector<string>> v(2, vector<string>(n));
+    set<string> s;
+    for (ll i = 0; i < n; i++)
     {
-        cout << 1 << nn;
-        return;
+        cin >> v[0][i];
+        s.insert(v[0][i]);
+        v[1][i] = v[0][i];
+        reverse(v[1][i].begin(), v[1][i].end());
     }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
+    for (ll j = 0; j < n; j++)
     {
-        if (x == 0)
+        string t;
+        bool f = false;
+        for (int i = 0; i < v[0][j].size() - 1; i++)
         {
-            ans++;
-            x = a[i];
-        }
-        else
-        {
-            x &= a[i];
-        }
-    }
-    if (x == 0)
-    {
-        ans++;
-    }
-    cout << ans << nn;
+            t.push_back(v[0][j][i]);
+            v[1][j].pop_back();
+            reverse(v[1][j].begin(), v[1][j].end());
 
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
+            if (s.count(t) && s.count(v[1][j]))
+            {
+                cout << 1;
+                f = true;
+                break;
+            }
+            reverse(v[1][j].begin(), v[1][j].end());
+        }
+        if (f == false)
+        {
+            cout << 0;
+        }
+    }
+    cout << nn;
 }
 
 int main()

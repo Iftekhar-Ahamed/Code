@@ -28,72 +28,30 @@ const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
 
+bool canChooseSum(int n, int k, ll x)
+{
+    ll minPossibleSum = (ll)k * (k + 1) / 2;
+    ll maxPossibleSum = (ll)k * (2 * n - k + 1) / 2;
+
+    if (x < minPossibleSum || x > maxPossibleSum)
+    {
+        return false;
+    }
+    return true;
+}
+
 void solve()
 {
-
-    ll n;
-    cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    ll n, x, k;
+    cin >> n >> k >> x;
+    if (canChooseSum(n, k, x))
     {
-        cout << 1 << nn;
-        return;
+        cout << "YES" << nn;
     }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
+    else
     {
-        if (x == 0)
-        {
-            ans++;
-            x = a[i];
-        }
-        else
-        {
-            x &= a[i];
-        }
+        cout << "NO" << nn;
     }
-    if (x == 0)
-    {
-        ans++;
-    }
-    cout << ans << nn;
-
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
 }
 
 int main()

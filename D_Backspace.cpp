@@ -30,70 +30,30 @@ const ll mXs = 1e6;
 
 void solve()
 {
-
-    ll n;
-    cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    string s, t;
+    cin >> s >> t;
+    ll c = 0;
+    for (ll i = s.size() - 1, j = t.size() - 1; i >= 0 && j >= 0;)
     {
-        cout << 1 << nn;
-        return;
-    }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
-    {
-        if (x == 0)
+        if (s[i] == t[j])
         {
-            ans++;
-            x = a[i];
+            i--, j--;
+            c++;
         }
         else
         {
-            x &= a[i];
+            i -= 2;
         }
     }
-    if (x == 0)
-    {
-        ans++;
-    }
-    cout << ans << nn;
 
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
+    if (c == t.size())
+    {
+        cout << "YES" << nn;
+    }
+    else
+    {
+        cout << "NO" << nn;
+    }
 }
 
 int main()

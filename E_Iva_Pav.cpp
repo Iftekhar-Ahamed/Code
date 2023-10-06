@@ -26,74 +26,69 @@ int dRow[] = {-1, 0, 1, 0, 1, 1, -1, -1};
 int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
-const ll mXs = 1e6;
-
-void solve()
+const ll mXs = 200000;
+ll Node[4 * mXs];
+ll a[mXs + 10];
+void build(ll l, ll r, ll nd)
 {
-
-    ll n;
-    cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    if (l == r)
     {
-        cout << 1 << nn;
+        Node[nd] = a[l];
         return;
     }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
-    {
-        if (x == 0)
-        {
-            ans++;
-            x = a[i];
-        }
-        else
-        {
-            x &= a[i];
-        }
-    }
-    if (x == 0)
-    {
-        ans++;
-    }
-    cout << ans << nn;
+    ll mid = (l + r) / 2;
+    build(l, mid, 2 * nd + 1);
+    build(mid + 1, r, 2 * nd + 2);
+    Node[nd] = Node[2 * nd + 1] & Node[2 * nd + 2];
+}
 
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
+ll range(ll l, ll e, ll nd, ll ql, ll qe)
+{
+    if (ql <= l && qe >= e)
+        return Node[nd];
+    if (ql > e || qe < l)
+        return INT_MAX;
+    ll mid = (l + e) / 2;
+    ll nd1 = range(l, mid, 2 * nd + 1, ql, qe);
+    ll nd2 = range(mid + 1, e, 2 * nd + 2, ql, qe);
+    return nd1 & nd2;
+}
+void solve()
+{
+    ll n;
+    cin >> n;
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    build(0, n - 1, 0);
+    ll q;
+
+    cin >> q;
+    while (q--)
+    {
+        ll ss, k;
+        cin >> ss >> k;
+        ss--;
+        ll L = ss, R = n - 1, r = -1;
+
+        while (L <= R)
+        {
+            ll mid = L + (R - L) / 2;
+            ll ans = range(0, n - 1, 0, ss, mid);
+            if (ans >= k)
+            {
+                r = mid + 1;
+                L = mid + 1;
+            }
+            else
+            {
+                R = mid - 1;
+            }
+        }
+        cout << r << " ";
+    }
+    cout << nn;
 }
 
 int main()

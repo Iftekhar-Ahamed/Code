@@ -27,73 +27,52 @@ int dCol[] = {0, 1, 0, -1, 1, -1, -1, 1};
 const double pi = acos(-1.0);
 const ll mod = 1e9 + 7;
 const ll mXs = 1e6;
+void convert(vector<ll> &v, ll n)
+{
+    while (n > 0)
+    {
+        v.push_back(n % 10);
+        n /= 10;
+    }
+    sort(v.begin(), v.end());
+}
+void calculate(ll &ans, vector<ll> &v)
+{
+    if (v[0] == 0)
+        return;
 
+    for (ll i = 0; i < v.size() - 1; i++)
+    {
+
+        if (v[i + 1] == 0)
+            continue;
+
+        ll a = 0, b = 0;
+
+        for (ll k = 0; k <= i; k++)
+        {
+            a = (a * 10) + v[k];
+        }
+        for (ll k = i + 1; k < v.size(); k++)
+        {
+            b = (b * 10) + v[k];
+        }
+        ans = max(ans, a * b);
+    }
+}
 void solve()
 {
-
     ll n;
     cin >> n;
-    ll a[n];
-    for (auto &i : a)
-        cin >> i;
-
-    ll x = a[0];
-    for (auto i : a)
-        x &= i;
-
-    if (x != 0)
+    vector<ll> v;
+    convert(v, n);
+    ll mul = 0;
+    calculate(mul, v);
+    while (next_permutation(v.begin(), v.end()))
     {
-        cout << 1 << nn;
-        return;
+        calculate(mul, v);
     }
-    x = a[0];
-    ll ans = 0;
-    for (ll i = 1; i < n; i++)
-    {
-        if (x == 0)
-        {
-            ans++;
-            x = a[i];
-        }
-        else
-        {
-            x &= a[i];
-        }
-    }
-    if (x == 0)
-    {
-        ans++;
-    }
-    cout << ans << nn;
-
-    // ll n;
-    // cin >> n;
-    // ll a[n];
-    // for (ll i = 0; i < n; i++)
-    // {
-    //     cin >> a[i];
-    // }
-    // vector<ll> pre(n, 0), suf(n, 0);
-    // suf[n - 1] = a[n - 1];
-    // pre[0] = a[0];
-    // for (ll i = 1; i < n; i++)
-    // {
-    //     pre[i] = pre[i - 1] & a[i];
-    // }
-    // ll c = 0;
-    // for (ll i = n - 1; i >= 1; i--)
-    // {
-    //     if (suf[i] == pre[n - 1] && pre[i - 1] == 0)
-    //     {
-    //         c++;
-    //         suf[i - 1] = a[i - 1];
-    //     }
-    //     else
-    //     {
-    //         suf[i - 1] = suf[i] & a[i - 1];
-    //     }
-    // }
-    // cout << c + 1 << nn;
+    cout << mul << nn;
 }
 
 int main()
@@ -103,11 +82,9 @@ int main()
 #endif
     // read;
     // write;
-    test
-    {
-        // testcase
-        solve();
-    }
+    // testcase
+    solve();
+
     return 0;
 }
 /*
